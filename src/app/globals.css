@@ -1,26 +1,265 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ============================================================
+   NUTZ N FRUITZ — DESIGN TOKENS
+   Source: Existing brand palette
+   Direction: Modern D2C × Natural Premium × Subtle Indian
+   ============================================================ */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* ── Brand Colors ─────────────────────────────────────── */
+  --color-brand-forest:       #285542; /* Primary green — CTAs, active states */
+  --color-brand-forest-dark:  #1D4031; /* Hover / pressed */
+  --color-brand-forest-light: #3A7A5E; /* Tinted elements */
+  --color-brand-sage:         #687653; /* Secondary muted green */
+  --color-brand-gold:         #A89550; /* Badge accent, price highlight */
+  --color-brand-gold-light:   #C8B472; /* Subtle glow on gold */
+
+  /* ── Surface / Background ─────────────────────────────── */
+  --color-surface-cream:      #FAFAF7; /* Page background */
+  --color-surface-white:      #FFFFFF; /* Cards, modals */
+  --color-surface-muted:      #F4F4F0; /* Subtle section backgrounds */
+  --color-surface-border:     #DDE3DC; /* Borders, dividers */
+
+  /* ── Content / Text ───────────────────────────────────── */
+  --color-content-primary:    #26332D; /* Headings, primary body */
+  --color-content-secondary:  #4A5E54; /* Secondary text */
+  --color-content-muted:      #6F7772; /* Placeholders, captions */
+  --color-content-inverse:    #FFFFFF; /* Text on dark backgrounds */
+
+  /* ── Feedback ─────────────────────────────────────────── */
+  --color-success-bg:         #EBF5F0;
+  --color-success-text:       #1E6A45;
+  --color-warning-bg:         #FEF9EC;
+  --color-warning-text:       #8A6A00;
+  --color-error-bg:           #FDF0EE;
+  --color-error-text:         #C0392B;
+
+  /* ── Commerce ─────────────────────────────────────────── */
+  --color-sale:               #C0392B; /* Sale price, discount badge */
+  --color-sale-bg:            #FDF0EE;
+  --color-badge-premium:      #A89550; /* Gold badge */
+  --color-badge-new:          #285542; /* Forest badge */
+  --color-badge-organic:      #687653; /* Sage badge */
+
+  /* ── Typography ───────────────────────────────────────── */
+  --font-sans:   var(--font-inter);
+  --font-display: var(--font-playfair);
+
+  /* ── Font Sizes (px → rem via tailwind scale) ─────────── */
+  --text-display-xl:  clamp(2rem, 5vw, 3.5rem);
+  --text-display-lg:  clamp(1.75rem, 4vw, 2.75rem);
+
+  /* ── Spacing Extras ───────────────────────────────────── */
+  --spacing-18:   4.5rem;
+  --spacing-22:   5.5rem;
+
+  /* ── Border Radius ────────────────────────────────────── */
+  --radius-card:     0.75rem;   /* 12px — product cards */
+  --radius-badge:    0.375rem;  /* 6px — badges */
+  --radius-pill:     999px;     /* pills / tags */
+  --radius-btn:      0.5rem;    /* 8px — buttons */
+  --radius-input:    0.5rem;    /* 8px — form inputs */
+
+  /* ── Shadows ──────────────────────────────────────────── */
+  --shadow-card:      0 1px 4px 0 rgba(38, 51, 45, 0.06), 0 4px 16px 0 rgba(38, 51, 45, 0.08);
+  --shadow-card-hover:0 4px 12px 0 rgba(38, 51, 45, 0.10), 0 12px 32px 0 rgba(38, 51, 45, 0.12);
+  --shadow-header:    0 1px 0 0 #DDE3DC, 0 2px 8px 0 rgba(38, 51, 45, 0.06);
+  --shadow-dropdown:  0 8px 32px 0 rgba(38, 51, 45, 0.14);
+  --shadow-btn:       0 1px 2px 0 rgba(38, 51, 45, 0.12);
+
+  /* ── Spacing Scale (4px base unit) ───────────────────── */
+  /* Reference: frontend.md Section 3                       */
+  /* Use Tailwind classes (p-1, p-2 …) in components.       */
+  /* Use these CSS vars only in custom CSS rules.            */
+  --space-xs:   0.25rem;  /* 4px  — icon padding, tight inline */
+  --space-sm:   0.5rem;   /* 8px  — badge padding, compact gaps */
+  --space-md:   1rem;     /* 16px — standard component padding */
+  --space-lg:   1.5rem;   /* 24px — card padding, section gaps */
+  --space-xl:   2rem;     /* 32px — generous component spacing */
+  --space-2xl:  3rem;     /* 48px — section padding (mobile) */
+  --space-3xl:  4rem;     /* 64px — section padding (desktop) */
+  --space-4xl:  5rem;     /* 80px — large section gaps */
+  --space-5xl:  6rem;     /* 96px — hero / page-level spacing */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ============================================================
+   BASE STYLES
+   ============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-surface-cream);
+  color: var(--color-content-primary);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+}
+
+/* ── Focus visible ──────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-brand-forest);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ── Selection ──────────────────────────────────────────── */
+::selection {
+  background-color: color-mix(in srgb, var(--color-brand-forest) 20%, transparent);
+}
+
+/* ── Scrollbar (subtle, branded) ────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--color-surface-muted); }
+::-webkit-scrollbar-thumb { background: var(--color-surface-border); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-brand-sage); }
+
+/* ============================================================
+   UTILITY LAYER — Design System Utilities
+   ============================================================ */
+
+@layer utilities {
+  /* Text styles */
+  .text-display-xl  { font-size: var(--text-display-xl); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; }
+  .text-display-lg  { font-size: var(--text-display-lg); font-weight: 600; line-height: 1.2;  letter-spacing: -0.015em; }
+
+  /* Brand gradient */
+  .gradient-brand {
+    background: linear-gradient(135deg, var(--color-brand-forest) 0%, var(--color-brand-forest-light) 100%);
+  }
+  .gradient-cream {
+    background: linear-gradient(180deg, var(--color-surface-cream) 0%, var(--color-surface-white) 100%);
+  }
+  .gradient-gold {
+    background: linear-gradient(135deg, var(--color-brand-gold) 0%, var(--color-brand-gold-light) 100%);
+  }
+
+  /* Glassmorphism — for header on scroll */
+  .glass-header {
+    backdrop-filter: blur(12px) saturate(180%);
+    background-color: color-mix(in srgb, var(--color-surface-white) 90%, transparent);
+    border-bottom: 1px solid var(--color-surface-border);
+  }
+
+  /* Card */
+  .card {
+    background: var(--color-surface-white);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .card:hover {
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-2px);
+  }
+
+  /* Transition presets */
+  .transition-smooth  { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+  .transition-bounce  { transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+  /* Hide scrollbar visually but keep scroll */
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
+/* ============================================================
+   COMPONENT LAYER
+   ============================================================ */
+
+@layer components {
+  /* ── Buttons ──────────────────────────────────────────── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    line-height: 1;
+    border-radius: var(--radius-btn);
+    padding: 0.625rem 1.25rem;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+    text-decoration: none;
+    box-shadow: var(--shadow-btn);
+  }
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .btn-primary {
+    background-color: var(--color-brand-forest);
+    color: var(--color-content-inverse);
+    border-color: var(--color-brand-forest);
+  }
+  .btn-primary:hover {
+    background-color: var(--color-brand-forest-dark);
+    border-color: var(--color-brand-forest-dark);
+    box-shadow: 0 4px 12px rgba(40, 85, 66, 0.3);
+  }
+
+  .btn-secondary {
+    background-color: transparent;
+    color: var(--color-brand-forest);
+    border-color: var(--color-brand-forest);
+  }
+  .btn-secondary:hover {
+    background-color: var(--color-brand-forest);
+    color: var(--color-content-inverse);
+  }
+
+  .btn-ghost {
+    background-color: transparent;
+    color: var(--color-content-secondary);
+    border-color: transparent;
+    box-shadow: none;
+  }
+  .btn-ghost:hover {
+    background-color: var(--color-surface-muted);
+    color: var(--color-content-primary);
+  }
+
+  .btn-sm {
+    font-size: 0.8125rem;
+    padding: 0.5rem 1rem;
+  }
+  .btn-lg {
+    font-size: 1rem;
+    padding: 0.875rem 1.75rem;
+  }
+  .btn-icon {
+    padding: 0.625rem;
+    aspect-ratio: 1;
+  }
+
+  /* ── Badges ───────────────────────────────────────────── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.1875rem 0.5rem;
+    border-radius: var(--radius-badge);
+    line-height: 1.2;
+  }
+  .badge-premium { background: var(--color-brand-gold); color: #FFFFFF; }
+  .badge-new     { background: var(--color-brand-forest); color: #FFFFFF; }
+  .badge-sale    { background: var(--color-sale); color: #FFFFFF; }
+  .badge-organic { background: var(--color-brand-sage); color: #FFFFFF; }
+  .badge-outline { background: transparent; border: 1px solid var(--color-surface-border); color: var(--color-content-secondary); }
 }

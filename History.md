@@ -43,25 +43,24 @@ Keep entries concise and factual.
 
 # 3. Current Project Status
 
-Update this section as the project progresses.
-
-| Area                 | Status      | Notes |
-| -------------------- | ----------- | ----- |
-| Product requirements | Not Started | —     |
-| Architecture         | Not Started | —     |
-| Design system        | Not Started | —     |
-| Frontend foundation  | Not Started | —     |
-| Homepage             | Not Started | —     |
-| Product listing      | Not Started | —     |
-| Product details      | Not Started | —     |
-| Search               | Not Started | —     |
-| Cart                 | Not Started | —     |
-| Checkout             | Not Started | —     |
-| Authentication       | Not Started | —     |
-| Orders               | Not Started | —     |
-| Admin functionality  | Not Started | —     |
-| Testing              | Not Started | —     |
-| Deployment           | Not Started | —     |
+| Area                 | Status      | Notes                                        |
+| -------------------- | ----------- | -------------------------------------------- |
+| Product requirements | Planned     | prd.md documents requirements                |
+| Architecture         | Completed   | architecture.md v1.0 complete                |
+| Design system        | Completed   | globals.css — tokens, components, utilities  |
+| Frontend foundation  | Completed   | Next.js 16 + Tailwind v4 + folder structure  |
+| Header / Navigation  | Completed   | Desktop mega-menu + mobile drawer            |
+| Homepage             | In Progress | Placeholder active, full page is Phase 3     |
+| Product listing      | Not Started | —                                            |
+| Product details      | Not Started | —                                            |
+| Search               | Not Started | —                                            |
+| Cart                 | Not Started | —                                            |
+| Checkout             | Not Started | —                                            |
+| Authentication       | Not Started | —                                            |
+| Orders               | Not Started | —                                            |
+| Admin functionality  | Not Started | —                                            |
+| Testing              | Not Started | —                                            |
+| Deployment           | Not Started | —                                            |
 
 Use statuses such as:
 
