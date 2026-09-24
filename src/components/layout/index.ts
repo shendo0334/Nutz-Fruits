@@ -14,4 +14,6 @@ export { MobileMenu }         from "./MobileMenu";
 export { MegaMenu }           from "./MegaMenu";
 export { SearchBar }          from "./SearchBar";
 export { Breadcrumbs }        from "./Breadcrumbs";
+export { Footer }             from "./Footer";
 export type { BreadcrumbItem } from "./Breadcrumbs";
+

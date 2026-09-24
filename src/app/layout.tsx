@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import "./globals.css";
+
 
 /* ── Typography ─────────────────────────────────────────── */
 const inter = Inter({
@@ -60,8 +62,9 @@ export default function RootLayout({
         <main id="main-content" className="flex-1">
           {children}
         </main>
-        {/* Footer will be added in Phase 3 */}
+        <Footer />
       </body>
+
     </html>
   );
 }

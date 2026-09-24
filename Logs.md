@@ -129,3 +129,30 @@ Created `src/components/product/index.ts` — barrel export.
   - Query & accessor functions: `getAllProducts()`, `getProductBySlug()`, `getProductById()`, `getProductsByCategory()`, `getFeaturedProducts()`, `getBestsellerProducts()`, `getNewArrivals()`, `getDiscountedProducts()`, `getRelatedProducts()`, `searchProducts()`, `getAllCategories()`
 - `src/lib/mock-products.ts` — Maintained backward compatibility re-export pointing to `@/data/products`.
 
+---
+
+## Phase 11 — Homepage
+
+Built all 12 planned homepage sections in the exact architectural sequence:
+
+| #  | Section              | Component File                              | Features & Functionality                                              |
+| -- | -------------------- | ------------------------------------------- | --------------------------------------------------------------------- |
+| 1  | Hero                 | `src/components/home/Hero.tsx`              | Headline, trust badges, PAN-India pill, dual CTA, feature card        |
+| 2  | Shop By Category     | `src/components/home/ShopByCategory.tsx`     | 6 category cards with counts, tags, icons, hover transitions          |
+| 3  | Best Sellers         | `src/components/home/BestSellers.tsx`        | 4-col responsive grid of bestselling products using `ProductCard`     |
+| 4  | Featured Offer       | `src/components/home/FeaturedOffer.tsx`      | Festive 20% discount banner with interactive `FRESH20` coupon box    |
+| 5  | Product Collections  | `src/components/home/ProductCollections.tsx` | Tabbed product showcase (Featured, New, Organic, Imported)           |
+| 6  | Why Nutz N Fruitz    | `src/components/home/WhyUs.tsx`              | 4 quality pillars: Direct Sourcing, Pure & Untreated, Nitrogen Pack, 48h Dispatch |
+| 7  | Gifting              | `src/components/home/GiftingSection.tsx`     | Celebration & festive hampers, artisan keepsake wooden boxes, potlis  |
+| 8  | Corporate Gifting    | `src/components/home/CorporateGifting.tsx`   | B2B branding, multi-address dispatch, tier pricing, lead inquiry form |
+| 9  | Store Discovery      | `src/components/home/StoreDiscovery.tsx`     | Indiranagar, Jayanagar, Bandra retail stores with tasting bar details |
+| 10 | Customer Reviews     | `src/components/home/CustomerReviews.tsx`    | Verified buyer testimonials, 4.8★ aggregate rating summary card       |
+| 11 | Guides               | `src/components/home/GuidesSection.tsx`      | Nutritional & storage educational articles with read times            |
+| 12 | WhatsApp/Newsletter  | `src/components/home/NewsletterSection.tsx`  | VIP email signup (10% off code) & WhatsApp broadcast channel          |
+| 13 | Footer               | `src/components/layout/Footer.tsx`          | Categories, Customer Care, B2B links, Certifications, SSL & payment info |
+
+- `src/components/home/index.ts` — Barrel export for all home section components.
+- `src/app/page.tsx` — Main landing page orchestrating all sections.
+- `src/app/layout.tsx` — Global root layout updated to include `Footer`.
+
+

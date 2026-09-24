@@ -1,0 +1,12 @@
+export { Hero }               from "./Hero";
+export { ShopByCategory }     from "./ShopByCategory";
+export { BestSellers }        from "./BestSellers";
+export { FeaturedOffer }      from "./FeaturedOffer";
+export { ProductCollections } from "./ProductCollections";
+export { WhyUs }              from "./WhyUs";
+export { GiftingSection }     from "./GiftingSection";
+export { CorporateGifting }   from "./CorporateGifting";
+export { StoreDiscovery }     from "./StoreDiscovery";
+export { CustomerReviews }    from "./CustomerReviews";
+export { GuidesSection }      from "./GuidesSection";
+export { NewsletterSection }  from "./NewsletterSection";
