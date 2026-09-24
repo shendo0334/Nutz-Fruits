@@ -155,4 +155,28 @@ Built all 12 planned homepage sections in the exact architectural sequence:
 - `src/app/page.tsx` — Main landing page orchestrating all sections.
 - `src/app/layout.tsx` — Global root layout updated to include `Footer`.
 
+---
+
+## Phase 12 — Category Pages
+
+**Reusable Component:**
+- `src/components/category/CategoryPageView.tsx`:
+  - Structured JSON-LD Breadcrumbs (`Breadcrumbs.tsx`)
+  - Category H1 title, badge, descriptive copy
+  - Subcategory chip pills with live product counts
+  - Desktop sticky filter sidebar (In-stock toggle, price range slider, customer rating filter, collection badges)
+  - Mobile bottom sheet filter drawer with backdrop blur and Apply / Reset actions
+  - Sort dropdown (Popularity, Price low/high, Customer Rating, Discount)
+  - Responsive product grid: 2 cols on mobile, 3 cols on tablet, 4 cols on desktop
+
+**Routes Built:**
+- `/shop` (`src/app/shop/page.tsx`) — All products with category filters
+- `/dry-fruits` & `/shop/dry-fruits` (`src/app/dry-fruits/page.tsx`) — Almonds, Cashews, Pistachios, Walnuts, Raisins
+- `/nuts` & `/shop/nuts` (`src/app/nuts/page.tsx`) — High protein whole nuts & kernels
+- `/imported` & `/shop/imported` (`src/app/imported/page.tsx`) — Jordanian Medjool dates & Turkish apricots
+- `/spices` & `/shop/spices` (`src/app/spices/page.tsx`) — Single-estate Kerala cardamom & spices
+- `/best-sellers` & `/shop/best-sellers` (`src/app/best-sellers/page.tsx`) — Top-rated customer favorites
+- `/offers` & `/shop/offers` (`src/app/offers/page.tsx`) — Value packs & discounted products
+
+
 
