@@ -11,82 +11,90 @@ interface MegaMenuProps {
 }
 
 /**
- * Desktop Mega Menu dropdown — appears on hover over a nav item with hasMegaMenu.
- * Renders a two-column grid: category list on the left, sub-items on the right.
+ * MegaMenu — desktop dropdown panel.
+ *
+ * Opens below the DesktopNavigation bar on hover.
+ * Centered under the triggering nav item, max-width constrained.
+ *
+ * Structure:
+ *   ┌─────────────────────────────────────────┐
+ *   │  [Cat A]  [Cat B]  [Cat C]  [Cat D]     │  ← category tabs
+ *   ├─────────────────────────────────────────┤
+ *   │  sub-A   sub-B   sub-C   sub-D          │  ← sub-items grid
+ *   ├─────────────────────────────────────────┤
+ *   │  Free delivery note        View all →   │  ← footer bar
+ *   └─────────────────────────────────────────┘
  */
 export function MegaMenu({ item, isOpen, onClose }: MegaMenuProps) {
-  const menuRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   /* Close on outside click */
   useEffect(() => {
-    function handleClick(e: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        onClose();
-      }
+    if (!isOpen) return;
+    function handle(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) onClose();
     }
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClick);
-    }
-    return () => document.removeEventListener("mousedown", handleClick);
+    document.addEventListener("mousedown", handle);
+    return () => document.removeEventListener("mousedown", handle);
   }, [isOpen, onClose]);
 
   /* Close on Escape */
   useEffect(() => {
-    function handleKey(e: KeyboardEvent) {
+    if (!isOpen) return;
+    function handle(e: KeyboardEvent) {
       if (e.key === "Escape") onClose();
     }
-    if (isOpen) {
-      document.addEventListener("keydown", handleKey);
-    }
-    return () => document.removeEventListener("keydown", handleKey);
+    document.addEventListener("keydown", handle);
+    return () => document.removeEventListener("keydown", handle);
   }, [isOpen, onClose]);
 
   if (!item.categories?.length) return null;
 
+  const colCount = item.categories.length;
+
   return (
     <div
-      ref={menuRef}
+      ref={ref}
       role="region"
       aria-label={`${item.label} menu`}
       className={[
-        "absolute top-full left-1/2 -translate-x-1/2 mt-0 z-50",
-        "w-[min(900px,95vw)]",
+        /* Positioning — absolute below the nav bar */
+        "absolute top-full left-1/2 -translate-x-1/2 z-50",
+        "w-[min(880px,90vw)]",
+        /* Visual */
         "bg-white rounded-2xl border border-[var(--color-surface-border)]",
         "shadow-[var(--shadow-dropdown)]",
         "overflow-hidden",
+        /* Animation */
         "transition-all duration-200 origin-top",
         isOpen
-          ? "opacity-100 scale-y-100 translate-y-0 pointer-events-auto"
+          ? "opacity-100 scale-y-100 translate-y-1 pointer-events-auto"
           : "opacity-0 scale-y-95 -translate-y-2 pointer-events-none",
       ].join(" ")}
     >
-      {/* Top bar — category tabs */}
-      <div className="grid gap-0"
-        style={{ gridTemplateColumns: `repeat(${item.categories.length}, 1fr)` }}
+      {/* Category header row */}
+      <div
+        className="grid border-b border-[var(--color-surface-border)]"
+        style={{ gridTemplateColumns: `repeat(${colCount}, 1fr)` }}
       >
-        {item.categories.map((cat) => (
+        {item.categories.map((cat, i) => (
           <Link
             key={cat.href}
             href={cat.href}
             onClick={onClose}
             className={[
-              "flex items-center gap-2 px-5 py-4 border-b border-[var(--color-surface-border)]",
-              "text-sm font-600 text-[var(--color-content-secondary)]",
+              "flex items-center gap-2 px-5 py-3.5 group",
+              "text-sm font-semibold text-[var(--color-content-secondary)]",
               "hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-brand-forest)]",
               "transition-colors duration-150",
-              "group",
+              /* Divider between cats */
+              i < colCount - 1 ? "border-r border-[var(--color-surface-border)]" : "",
             ].join(" ")}
           >
-            {cat.icon && (
-              <span className="text-xl leading-none shrink-0">{cat.icon}</span>
-            )}
-            <span className="font-semibold group-hover:text-[var(--color-brand-forest)] transition-colors">
-              {cat.label}
-            </span>
+            {cat.icon && <span className="text-lg leading-none shrink-0">{cat.icon}</span>}
+            <span className="group-hover:text-[var(--color-brand-forest)]">{cat.label}</span>
             {cat.featured && (
-              <span className="ml-auto badge badge-premium text-[10px] px-1.5 py-0.5">
-                Top
-              </span>
+              <span className="ml-auto badge badge-premium !text-[9px] !py-0.5">Top</span>
             )}
           </Link>
         ))}
@@ -94,36 +102,33 @@ export function MegaMenu({ item, isOpen, onClose }: MegaMenuProps) {
 
       {/* Sub-items grid */}
       <div
-        className="grid gap-0 p-5"
-        style={{ gridTemplateColumns: `repeat(${Math.min(item.categories.length, 4)}, 1fr)` }}
+        className="grid gap-0 p-4"
+        style={{ gridTemplateColumns: `repeat(${colCount}, 1fr)` }}
       >
-        {item.categories.map((cat) => (
-          <div key={cat.href} className="space-y-1">
+        {item.categories.map((cat, i) => (
+          <div
+            key={cat.href}
+            className={[
+              "py-1",
+              i < colCount - 1 ? "border-r border-[var(--color-surface-border)] pr-4 mr-0" : "pl-0",
+              i > 0 ? "pl-4" : "",
+            ].join(" ")}
+          >
             {cat.items?.map((sub) => (
               <Link
                 key={sub.href}
                 href={sub.href}
                 onClick={onClose}
-                className={[
-                  "block px-3 py-2 rounded-lg text-sm",
-                  "text-[var(--color-content-secondary)]",
-                  "hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-brand-forest)]",
-                  "transition-colors duration-150",
-                ].join(" ")}
+                className="block px-2 py-1.5 rounded-lg text-sm text-[var(--color-content-secondary)] hover:bg-[var(--color-surface-muted)] hover:text-[var(--color-brand-forest)] transition-colors duration-150"
               >
                 {sub.label}
               </Link>
             ))}
-            {/* View all link */}
+            {/* View all */}
             <Link
               href={cat.href}
               onClick={onClose}
-              className={[
-                "block px-3 py-2 rounded-lg text-xs font-semibold mt-2",
-                "text-[var(--color-brand-forest)]",
-                "hover:bg-[color-mix(in_srgb,var(--color-brand-forest)_8%,transparent)]",
-                "transition-colors duration-150",
-              ].join(" ")}
+              className="block px-2 py-1.5 mt-1 rounded-lg text-xs font-semibold text-[var(--color-brand-forest)] hover:bg-[color-mix(in_srgb,var(--color-brand-forest)_8%,transparent)] transition-colors duration-150"
             >
               View all {cat.label} →
             </Link>
@@ -131,10 +136,10 @@ export function MegaMenu({ item, isOpen, onClose }: MegaMenuProps) {
         ))}
       </div>
 
-      {/* Footer CTA bar */}
-      <div className="border-t border-[var(--color-surface-border)] px-5 py-3 bg-[var(--color-surface-muted)] flex items-center justify-between">
+      {/* Footer bar */}
+      <div className="flex items-center justify-between px-5 py-2.5 border-t border-[var(--color-surface-border)] bg-[var(--color-surface-muted)]">
         <span className="text-xs text-[var(--color-content-muted)]">
-          Free delivery on orders above ₹499
+          🚚&nbsp; Free delivery above ₹499
         </span>
         <Link
           href={item.href}
