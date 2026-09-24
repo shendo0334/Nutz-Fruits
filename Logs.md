@@ -87,3 +87,45 @@ Desktop header height: **148px** (36 + 64 + 48)
 Mobile header height: **104px** (56 + 48)
 
 Created `src/components/layout/index.ts` — barrel export for all layout components.
+
+---
+
+## Phase 9 — Product System
+
+**Types & Data:**
+- `src/types/product.ts` — Product, ProductVariant, ProductImage, ProductRating, CartItem types
+- `src/lib/mock-products.ts` — 8 mock products (Almonds, Cashews, Pistachios, Walnuts, Raisins, Apricots, Dates, Cardamom) with Indian pricing, variants, ratings, badges
+- `next.config.ts` — configured `remotePatterns` for placehold.co dev images
+
+**11 components in `src/components/product/`:**
+
+| Component               | What it does                                              |
+| ----------------------- | --------------------------------------------------------- |
+| `ProductBadge`          | Pill label — New / Sale / Organic / Premium / Bestseller  |
+| `Rating`                | SVG star display with half-stars and review count         |
+| `ProductPrice`          | ₹price  ₹MRP-struck  discount% — INR formatted           |
+| `ProductVariantSelector`| Weight picker (100g / 250g / 500g / 1 kg) — pill buttons |
+| `QuantitySelector`      | [−] n [+] stepper with min/max clamping                   |
+| `AddToCartButton`       | idle → loading → added (2 s) → idle states               |
+| `BuyNowButton`          | Direct-to-checkout CTA with loading state                 |
+| `ProductCard`           | Full card: image + badges + wishlist + rating + price + variant + ATC |
+| `ProductGrid`           | Responsive 2→3→4 col grid, empty state                   |
+| `ProductCarousel`       | Horizontal scroll strip with hover prev/next arrows       |
+| `ProductGallery`        | Main image + thumbnail strip for product detail page      |
+
+Created `src/components/product/index.ts` — barrel export.
+
+---
+
+## Phase 10 — Mock Product Data & Data Layer
+
+**Types & Data:**
+- `src/types/product.ts` — Expanded domain types:
+  - `Product`: `id`, `name`, `slug`, `category`, `images`, `description`, `variants`, `rating`, `price`, `mrp`, `discount`, `availability`, `sku`, `origin`, `shelfLife`, `storageInstructions`, `highlights`, `nutritionalInfo`
+  - `ProductVariant`: `id`, `label`, `price`, `mrp`, `discount`, `availability` (`in_stock` | `out_of_stock` | `limited`), `inStock`, `sku`, `stockQuantity`
+  - Helper functions: `calculateDiscount()`, `isAvailable()`
+- `src/data/products.ts` — Mock catalogue and query layer with:
+  - 8 rich dry fruit, nut, date, and spice products with full variants
+  - Query & accessor functions: `getAllProducts()`, `getProductBySlug()`, `getProductById()`, `getProductsByCategory()`, `getFeaturedProducts()`, `getBestsellerProducts()`, `getNewArrivals()`, `getDiscountedProducts()`, `getRelatedProducts()`, `searchProducts()`, `getAllCategories()`
+- `src/lib/mock-products.ts` — Maintained backward compatibility re-export pointing to `@/data/products`.
+

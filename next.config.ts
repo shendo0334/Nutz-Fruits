@@ -1,7 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    remotePatterns: [
+      {
+        /* Placeholder images for development — remove in production */
+        protocol: "https",
+        hostname: "placehold.co",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
