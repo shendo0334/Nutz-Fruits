@@ -16,3 +16,5 @@ export { ProductCard }            from "./ProductCard";
 export { ProductGrid }            from "./ProductGrid";
 export { ProductCarousel }        from "./ProductCarousel";
 export { ProductGallery }         from "./ProductGallery";
+export { ProductDetailView }    from "./ProductDetailView";
+
