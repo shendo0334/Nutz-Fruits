@@ -391,7 +391,70 @@ export const PRODUCTS: Product[] = [
       fiber: "1.4g",
     },
   }),
+  createProduct({
+    id: "p-009",
+    slug: "royal-festive-wooden-gift-box",
+    name: "Royal Festive Wooden Dry Fruit Gift Box",
+    shortDescription: "Handcrafted wooden keepsake box with 4 premium compartments of roasted almonds, jumbo cashews, pistachios & dates.",
+    description:
+      "An exquisite festive gift set packaged in a luxury carved wooden box. Contains 200g California Roasted Almonds, 200g Jumbo W320 Cashews, 200g Salted Iranian Pistachios, and 200g Royal Medjool Dates. Includes a personalized greeting card and golden ribbon packaging.",
+    category: "gifting",
+    subcategory: "festive",
+    images: [
+      { src: "https://placehold.co/600x600/F5F1E6/285542?text=Royal+Gift+Box", alt: "Royal Festive Wooden Dry Fruit Gift Box", width: 600, height: 600 },
+      { src: "https://placehold.co/600x600/F5F1E6/285542?text=Gift+Box+Open", alt: "Gift Box Open 4 Compartments", width: 600, height: 600 },
+    ],
+    variants: [
+      createVariant({ id: "p-009-800", label: "800g (4x200g)", price: 1799, mrp: 2299, availability: "in_stock", sku: "GIFT-ROYAL-800", stockQuantity: 45 }),
+      createVariant({ id: "p-009-1200", label: "1.2 kg (4x300g)", price: 2499, mrp: 3199, availability: "in_stock", sku: "GIFT-ROYAL-1200", stockQuantity: 20 }),
+    ],
+    rating: { average: 4.9, count: 874 },
+    badges: ["bestseller", "premium"],
+    featured: true,
+    tags: ["gifting", "hamper", "festive", "diwali", "corporate", "wooden-box"],
+    origin: "India (Handcrafted)",
+    shelfLife: "6 Months",
+    storageInstructions: "Store in a cool dry place.",
+    highlights: [
+      "Carved reusable handcrafted wooden box",
+      "4 airtight glass jar / foil containers",
+      "Custom gift note with wax seal finish",
+      "PAN India door delivery with fragile protection",
+    ],
+  }),
+  createProduct({
+    id: "p-010",
+    slug: "corporate-executive-dry-fruit-hamper",
+    name: "Corporate Executive Dry Fruit Hamper",
+    shortDescription: "Elegant matte-finish corporate gift hamper with custom company branding options, nuts, berries & saffron.",
+    description:
+      "Designed specifically for corporate relations, festive employee appreciation, and VIP clients. Features roasted Californian almonds, smoked cashews, dried cranberries, and pure Kashmiri saffron blister pack, housed in an embossed faux-leather briefcase box.",
+    category: "gifting",
+    subcategory: "corporate",
+    images: [
+      { src: "https://placehold.co/600x600/F5F1E6/285542?text=Corporate+Hamper", alt: "Corporate Executive Dry Fruit Hamper", width: 600, height: 600 },
+      { src: "https://placehold.co/600x600/F5F1E6/285542?text=Hamper+Branding", alt: "Custom Corporate Branding View", width: 600, height: 600 },
+    ],
+    variants: [
+      createVariant({ id: "p-010-600", label: "600g Assorted + Saffron", price: 1999, mrp: 2599, availability: "in_stock", sku: "GIFT-CORP-600", stockQuantity: 80 }),
+      createVariant({ id: "p-010-1000", label: "1.0 kg Luxury Tier", price: 2999, mrp: 3899, availability: "in_stock", sku: "GIFT-CORP-1000", stockQuantity: 35 }),
+    ],
+    rating: { average: 4.8, count: 529 },
+    badges: ["premium"],
+    featured: false,
+    tags: ["gifting", "corporate", "b2b", "custom-logo", "employee-gifts", "executive"],
+    origin: "India",
+    shelfLife: "6 Months",
+    storageInstructions: "Store in a cool dry environment.",
+    highlights: [
+      "Custom corporate sleeve / logo embossing available for 25+ orders",
+      "GST invoice with input tax credit support",
+      "Direct bulk multi-address dispatch across India",
+      "Dedicated account manager for corporate bulk orders",
+    ],
+  }),
 ];
+
 
 /* ── Service & Query Functions (Data Access Layer) ───────── */
 
@@ -422,6 +485,16 @@ export function getProductById(id: string): Product | undefined {
 export function getProductsByCategory(category: string): Product[] {
   return PRODUCTS.filter((p) => p.category === category);
 }
+
+/**
+ * Returns all products matching a specific top-level category and subcategory slug.
+ */
+export function getProductsBySubcategory(category: string, subcategory: string): Product[] {
+  return PRODUCTS.filter(
+    (p) => p.category === category && p.subcategory === subcategory
+  );
+}
+
 
 /**
  * Returns all products marked as featured for the homepage hero/showcase.

@@ -45,22 +45,29 @@ Keep entries concise and factual.
 
 | Area                 | Status      | Notes                                        |
 | -------------------- | ----------- | -------------------------------------------- |
-| Product requirements | Planned     | prd.md documents requirements                |
+| Product requirements | Completed   | prd.md documents requirements                |
 | Architecture         | Completed   | architecture.md v1.0 complete                |
 | Design system        | Completed   | globals.css — tokens, components, utilities  |
 | Frontend foundation  | Completed   | Next.js 16 + Tailwind v4 + folder structure  |
-| Header / Navigation  | Completed   | Desktop mega-menu + mobile drawer            |
-| Homepage             | In Progress | Placeholder active, full page is Phase 3     |
-| Product listing      | Not Started | —                                            |
-| Product details      | Not Started | —                                            |
-| Search               | Not Started | —                                            |
-| Cart                 | Not Started | —                                            |
-| Checkout             | Not Started | —                                            |
+| Header / Navigation  | Completed   | Desktop mega-menu + mobile drawer + search   |
+| Homepage             | Completed   | 12 sections fully built in Phase 11          |
+| Product listing      | Completed   | Phase 12 Category & Shop pages built         |
+| Product details      | Completed   | Phase 13 PDP interactive experience built    |
+| Search               | Completed   | Phase 14 /search + fuzzy + autocomplete built|
+| Cart                 | Completed   | Phase 15 /cart + Context + Coupons built     |
+| Store discovery      | Completed   | Phase 17 /stores & /stores/[city] built      |
+| Offers & Deals       | Completed   | Phase 18 /offers & combos built              |
+| SEO & Schema.org     | Completed   | Phase 19 Metadata, JSON-LD, Sitemap & Robots |
+| Gifting & Content    | Completed   | /gifting, /blog, /guides, /recipes created   |
+| Performance & CWV    | Completed   | Phase 20 WebP/AVIF, LCP/CLS/INP/TTFB tune    |
+| Checkout             | Planned     | Phase 16 next                                |
 | Authentication       | Not Started | —                                            |
 | Orders               | Not Started | —                                            |
 | Admin functionality  | Not Started | —                                            |
 | Testing              | Not Started | —                                            |
 | Deployment           | Not Started | —                                            |
+
+
 
 Use statuses such as:
 
@@ -291,21 +298,23 @@ Track major features separately from daily notes.
 
 | Feature         | Status      | Started | Completed | Notes |
 | --------------- | ----------- | ------- | --------- | ----- |
-| Header          | Not Started | —       | —         |       |
-| Navigation      | Not Started | —       | —         |       |
-| Homepage        | Not Started | —       | —         |       |
-| Category page   | Not Started | —       | —         |       |
-| Product listing | Not Started | —       | —         |       |
-| Product card    | Not Started | —       | —         |       |
-| Product details | Not Started | —       | —         |       |
-| Search          | Not Started | —       | —         |       |
-| Filters         | Not Started | —       | —         |       |
-| Cart            | Not Started | —       | —         |       |
-| Checkout        | Not Started | —       | —         |       |
-| Authentication  | Not Started | —       | —         |       |
-| Account         | Not Started | —       | —         |       |
-| Orders          | Not Started | —       | —         |       |
-| Admin           | Not Started | —       | —         |       |
+| Header          | Completed   | Phase 8 | Phase 8   | Mega menu, search bar, drawer |
+| Navigation      | Completed   | Phase 5 | Phase 8   | Nav items & data structure |
+| Homepage        | Completed   | Phase 11| Phase 11  | 12 interactive sections |
+| Category page   | Completed   | Phase 12| Phase 12  | Category & shop routes with filters |
+| Product listing | Completed   | Phase 12| Phase 12  | Product grid & sorting |
+| Product card    | Completed   | Phase 9 | Phase 9   | Badges, ratings, ATC, wishlist |
+| Product details | Completed   | Phase 13| Phase 13  | PDP with gallery, variants, tabs |
+| Search          | Completed   | Phase 14| Phase 14  | /search + typo fuzzy + autocomplete |
+| Filters         | Completed   | Phase 12| Phase 14  | Faceted filters across shop & search |
+| Cart            | Completed   | Phase 15| Phase 15  | /cart page, Context, coupons, sticky CTA |
+| Store discovery | Completed   | Phase 17| Phase 17  | /stores & /stores/[city] discovery & maps|
+| Offers & Deals  | Completed   | Phase 18| Phase 18  | /offers flash deals, combos, bulk & gifts|
+| Checkout        | Planned     | Phase 16| —         | Multi-step checkout flow |
+| Authentication  | Not Started | —       | —         | Phone OTP & profile |
+| Account         | Not Started | —       | —         | Orders & addresses |
+| Orders          | Not Started | —       | —         | Order tracking |
+| Admin           | Not Started | —       | —         | Inventory & catalogue |
 
 ---
 
@@ -633,7 +642,7 @@ The next development action should always be clear.
 ```text
 Next Step:
 
-[Write the single most important next development task here.]
+Phase 21 (Accessibility) completed across all 10 WCAG 2.1 AA audit requirements. Proceed to next user-specified phase (e.g. Checkout / Account / Backend Integration).
 ```
 
 Keep this focused on the immediate next step rather than listing every future task.

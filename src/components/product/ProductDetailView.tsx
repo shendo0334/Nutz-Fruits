@@ -14,6 +14,7 @@ import { Rating } from "./Rating";
 import { ProductBadge } from "./ProductBadge";
 import { ProductCard } from "./ProductCard";
 import type { Product, ProductVariant } from "@/types/product";
+import { useCart } from "@/context/CartContext";
 
 interface ProductDetailViewProps {
   product: Product;
@@ -26,6 +27,7 @@ export function ProductDetailView({
   relatedProducts,
   frequentlyBoughtTogether = [],
 }: ProductDetailViewProps) {
+  const { addItem } = useCart();
   /* ── Selected Variant State ──────────────────────────────── */
   const defaultVariant =
     product.variants.find((v) => v.inStock) ?? product.variants[0];
@@ -388,7 +390,15 @@ export function ProductDetailView({
 
                   <button
                     type="button"
-                    onClick={() => setBundleAdded(true)}
+                    onClick={() => {
+                      addItem(product, selectedVariant, 1);
+                      bundleItems.forEach((item) => {
+                        const v = item.variants.find((vr) => vr.inStock) ?? item.variants[0];
+                        if (v) addItem(item, v, 1);
+                      });
+                      setBundleAdded(true);
+                      setTimeout(() => setBundleAdded(false), 2500);
+                    }}
                     className="btn btn-primary px-6 py-3 rounded-xl text-xs font-semibold whitespace-nowrap w-full sm:w-auto"
                   >
                     {bundleAdded ? "✓ Bundle Added to Cart!" : "Add 3 Items to Cart"}
@@ -404,7 +414,11 @@ export function ProductDetailView({
       <section id="product-tabs" className="py-12 bg-white border-b border-[var(--color-surface-border)] scroll-mt-20">
         <Container>
           {/* Tab Navigation Header */}
-          <div className="flex flex-wrap border-b border-[var(--color-surface-border)] gap-2 md:gap-8 mb-8">
+          <div
+            role="tablist"
+            aria-label="Product Information Tabs"
+            className="flex flex-wrap border-b border-[var(--color-surface-border)] gap-2 md:gap-8 mb-8"
+          >
             {[
               { id: "description", label: "Description & Details" },
               { id: "nutrition", label: "Nutritional Facts" },
@@ -415,10 +429,15 @@ export function ProductDetailView({
               return (
                 <button
                   key={tab.id}
+                  id={`tab-${tab.id}`}
+                  role="tab"
+                  aria-selected={isActive}
+                  aria-controls={`tabpanel-${tab.id}`}
                   type="button"
                   onClick={() => setActiveTab(tab.id as typeof activeTab)}
                   className={[
                     "pb-3.5 text-sm font-bold transition-all relative",
+                    "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-forest)] focus-visible:ring-offset-2 rounded-t-lg",
                     isActive
                       ? "text-[var(--color-brand-forest)] border-b-2 border-[var(--color-brand-forest)]"
                       : "text-[var(--color-content-secondary)] hover:text-[var(--color-content-primary)]",
@@ -432,7 +451,12 @@ export function ProductDetailView({
 
           {/* Tab 1: Description */}
           {activeTab === "description" && (
-            <div className="max-w-4xl space-y-6 text-sm text-[var(--color-content-secondary)] leading-relaxed">
+            <div
+              id="tabpanel-description"
+              role="tabpanel"
+              aria-labelledby="tab-description"
+              className="max-w-4xl space-y-6 text-sm text-[var(--color-content-secondary)] leading-relaxed"
+            >
               <div>
                 <h3 className="text-lg font-bold font-[var(--font-playfair)] text-[var(--color-content-primary)] mb-2">
                   About {product.name}
@@ -455,17 +479,22 @@ export function ProductDetailView({
 
           {/* Tab 2: Nutrition */}
           {activeTab === "nutrition" && (
-            <div className="max-w-2xl">
+            <div
+              id="tabpanel-nutrition"
+              role="tabpanel"
+              aria-labelledby="tab-nutrition"
+              className="max-w-2xl"
+            >
               <h3 className="text-lg font-bold font-[var(--font-playfair)] text-[var(--color-content-primary)] mb-4">
                 Nutritional Information (Approximate values per 100g)
               </h3>
               {product.nutritionalInfo ? (
                 <div className="border border-[var(--color-surface-border)] rounded-2xl overflow-hidden bg-[var(--color-surface-cream)]">
-                  <table className="w-full text-xs text-left">
+                  <table className="w-full text-xs text-left" aria-label={`Nutritional facts for ${product.name}`}>
                     <tbody className="divide-y divide-[var(--color-surface-border)]">
                       {Object.entries(product.nutritionalInfo).map(([key, val]) => (
                         <tr key={key} className="p-2">
-                          <th className="py-2.5 px-4 font-semibold text-[var(--color-content-primary)] capitalize">
+                          <th scope="row" className="py-2.5 px-4 font-semibold text-[var(--color-content-primary)] capitalize">
                             {key.replace(/([A-Z])/g, " $1")}
                           </th>
                           <td className="py-2.5 px-4 text-[var(--color-content-secondary)] text-right font-mono">
@@ -486,7 +515,12 @@ export function ProductDetailView({
 
           {/* Tab 3: Reviews */}
           {activeTab === "reviews" && (
-            <div className="space-y-8 max-w-4xl">
+            <div
+              id="tabpanel-reviews"
+              role="tabpanel"
+              aria-labelledby="tab-reviews"
+              className="space-y-8 max-w-4xl"
+            >
               <div className="flex flex-col sm:flex-row items-center justify-between gap-6 p-6 rounded-3xl bg-[var(--color-surface-cream)] border border-[var(--color-surface-border)]">
                 <div>
                   <div className="flex items-baseline gap-2">
@@ -495,7 +529,7 @@ export function ProductDetailView({
                     </span>
                     <span className="text-sm text-[var(--color-content-muted)]">out of 5</span>
                   </div>
-                  <div className="flex text-amber-500 text-sm mt-1">★★★★★</div>
+                  <div className="flex text-amber-500 text-sm mt-1" aria-label={`${product.rating.average} out of 5 stars`}>★★★★★</div>
                   <p className="text-xs text-[var(--color-content-muted)] mt-1">
                     Based on {product.rating.count} verified customer purchases
                   </p>
@@ -534,8 +568,8 @@ export function ProductDetailView({
                       <span className="font-bold text-[var(--color-content-primary)]">{rev.name}</span>
                       <span className="text-[var(--color-content-muted)]">{rev.date}</span>
                     </div>
-                    <div className="flex text-amber-500 text-xs">{"★".repeat(rev.rating)}</div>
-                    <h5 className="text-xs font-bold text-[var(--color-content-primary)]">{rev.title}</h5>
+                    <div className="flex text-amber-500 text-xs" aria-hidden="true">{"★".repeat(rev.rating)}</div>
+                    <h5 className="text-xs font-bold text-[var(--color-content-primary)] mb-1">{rev.title}</h5>
                     <p className="text-xs text-[var(--color-content-secondary)] leading-relaxed">{rev.comment}</p>
                   </div>
                 ))}
@@ -545,7 +579,12 @@ export function ProductDetailView({
 
           {/* Tab 4: FAQs */}
           {activeTab === "faqs" && (
-            <div className="max-w-3xl space-y-3">
+            <div
+              id="tabpanel-faqs"
+              role="tabpanel"
+              aria-labelledby="tab-faqs"
+              className="max-w-3xl space-y-3"
+            >
               {faqs.map((faq, idx) => {
                 const isOpen = openFaqIndex === idx;
                 return (
@@ -555,14 +594,19 @@ export function ProductDetailView({
                   >
                     <button
                       type="button"
+                      aria-expanded={isOpen}
+                      aria-controls={`faq-answer-${idx}`}
                       onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
-                      className="w-full flex items-center justify-between p-4 text-left font-semibold text-sm text-[var(--color-content-primary)]"
+                      className="w-full flex items-center justify-between p-4 text-left font-semibold text-sm text-[var(--color-content-primary)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-forest)]"
                     >
                       <span>{faq.q}</span>
-                      <span className="text-base text-[var(--color-brand-forest)]">{isOpen ? "−" : "+"}</span>
+                      <span className="text-base text-[var(--color-brand-forest)]" aria-hidden="true">{isOpen ? "−" : "+"}</span>
                     </button>
                     {isOpen && (
-                      <div className="p-4 pt-0 text-xs sm:text-sm text-[var(--color-content-secondary)] leading-relaxed border-t border-[var(--color-surface-border)]/50 bg-[var(--color-surface-cream)]/50">
+                      <div
+                        id={`faq-answer-${idx}`}
+                        className="p-4 pt-0 text-xs sm:text-sm text-[var(--color-content-secondary)] leading-relaxed border-t border-[var(--color-surface-border)]/50 bg-[var(--color-surface-cream)]/50"
+                      >
                         {faq.a}
                       </div>
                     )}
@@ -573,6 +617,7 @@ export function ProductDetailView({
           )}
         </Container>
       </section>
+
 
       {/* ── Related Products Carousel / Grid ─────────────────── */}
       {relatedProducts.length > 0 && (

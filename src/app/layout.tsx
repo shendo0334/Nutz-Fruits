@@ -46,25 +46,53 @@ export const metadata: Metadata = {
   },
 };
 
+import { CartProvider } from "@/context/CartContext";
+import { generateOrganizationSchema, generateWebSiteSchema } from "@/lib/seo";
+
 /* ── Root layout ────────────────────────────────────────── */
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const organizationSchema = generateOrganizationSchema();
+  const websiteSchema = generateWebSiteSchema();
+
   return (
     <html
       lang="en"
       className={`${inter.variable} ${playfair.variable} h-full antialiased scroll-smooth`}
     >
+      <head>
+        <link rel="preconnect" href="https://placehold.co" />
+        <link rel="dns-prefetch" href="https://placehold.co" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
+      </head>
+
       <body className="min-h-full flex flex-col bg-[var(--color-surface-cream)] text-[var(--color-content-primary)]">
-        <Header />
-        <main id="main-content" className="flex-1">
-          {children}
-        </main>
-        <Footer />
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-[var(--color-brand-forest)] focus:text-white focus:font-semibold focus:rounded-xl focus:shadow-xl focus:ring-2 focus:ring-[var(--color-brand-gold)]"
+        >
+          Skip to main content
+        </a>
+        <CartProvider>
+          <Header />
+          <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
+            {children}
+          </main>
+          <Footer />
+        </CartProvider>
       </body>
 
     </html>
   );
 }
+

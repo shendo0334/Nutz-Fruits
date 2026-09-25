@@ -6,6 +6,11 @@ import {
   getRelatedProducts,
 } from "@/data/products";
 import { ProductDetailView } from "@/components/product/ProductDetailView";
+import {
+  constructMetadata,
+  generateBreadcrumbSchema,
+  generateProductSchema,
+} from "@/lib/seo";
 
 interface ProductPageProps {
   params: Promise<{
@@ -27,25 +32,30 @@ export async function generateMetadata({
   const product = getProductBySlug(slug);
 
   if (!product) {
-    return {
+    return constructMetadata({
       title: "Product Not Found",
-    };
+      description: "The requested product could not be found.",
+      noIndex: true,
+    });
   }
 
-  return {
+  const primaryImage = product.images[0]?.src;
+
+  return constructMetadata({
     title: `${product.name} — Buy Online`,
     description:
       product.shortDescription ||
+      product.description.slice(0, 160) ||
       `Buy premium quality ${product.name} online at Nutz N Fruitz. 100% natural, vacuum-packed, fast PAN India shipping.`,
-    openGraph: {
-      title: `${product.name} | Nutz N Fruitz`,
-      description: product.shortDescription,
-      images: product.images.map((img) => ({
-        url: img.src,
-        alt: img.alt,
-      })),
-    },
-  };
+    path: `/products/${product.slug}`,
+    image: primaryImage,
+    keywords: [
+      product.name,
+      product.category,
+      ...(product.tags || []),
+      "buy dry fruits online",
+    ],
+  });
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
@@ -60,11 +70,29 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const allProducts = getAllProducts();
   const frequentlyBoughtTogether = allProducts.filter((p) => p.id !== product.id).slice(0, 2);
 
+  const productSchema = generateProductSchema(product);
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { label: "Shop", href: "/shop" },
+    { label: product.category.replace(/-/g, " "), href: `/${product.category}` },
+    { label: product.name, href: `/products/${product.slug}` },
+  ]);
+
   return (
-    <ProductDetailView
-      product={product}
-      relatedProducts={relatedProducts}
-      frequentlyBoughtTogether={frequentlyBoughtTogether}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <ProductDetailView
+        product={product}
+        relatedProducts={relatedProducts}
+        frequentlyBoughtTogether={frequentlyBoughtTogether}
+      />
+    </>
   );
 }
+

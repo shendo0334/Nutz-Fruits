@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { Product, ProductVariant } from "@/types/product";
+import { useCart } from "@/context/CartContext";
 
 interface AddToCartButtonProps {
   product: Product;
@@ -20,9 +21,6 @@ type State = "idle" | "loading" | "added";
  *   idle    → "Add to Cart"  (cart icon)
  *   loading → spinner
  *   added   → "Added!" with checkmark (2 s), then back to idle
- *
- * Cart integration: replace the body of handleClick with the real cart action
- * (e.g. dispatch to CartContext or call an API).
  */
 export function AddToCartButton({
   product,
@@ -32,6 +30,7 @@ export function AddToCartButton({
   className = "",
 }: AddToCartButtonProps) {
   const [state, setState] = useState<State>("idle");
+  const { addItem } = useCart();
 
   const isOOS = !variant.inStock;
 
@@ -40,10 +39,8 @@ export function AddToCartButton({
 
     setState("loading");
 
-    /* ─── Replace this with real cart logic ───────────────── */
-    await new Promise((r) => setTimeout(r, 600));
-    console.log("[Cart] Added:", { product: product.slug, variant: variant.id, quantity });
-    /* ──────────────────────────────────────────────────────── */
+    addItem(product, variant, quantity);
+    await new Promise((r) => setTimeout(r, 400));
 
     setState("added");
     setTimeout(() => setState("idle"), 2000);

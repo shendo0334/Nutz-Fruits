@@ -29,7 +29,8 @@ interface BreadcrumbsProps {
  * // → Home / Dry Fruits / Almonds
  */
 export function Breadcrumbs({ items, className = "" }: BreadcrumbsProps) {
-  const all = [{ label: "Home", href: "/" }, ...items];
+  const hasHome = items.length > 0 && (items[0].href === "/" || items[0].label.toLowerCase() === "home");
+  const all = hasHome ? items : [{ label: "Home", href: "/" }, ...items];
 
   /* JSON-LD structured data */
   const jsonLd = {
@@ -60,7 +61,7 @@ export function Breadcrumbs({ items, className = "" }: BreadcrumbsProps) {
           {all.map((item, i) => {
             const isLast = i === all.length - 1;
             return (
-              <li key={item.href} className="flex items-center gap-1">
+              <li key={`${item.href}-${i}`} className="flex items-center gap-1">
                 {isLast ? (
                   /* Current page — not a link */
                   <span

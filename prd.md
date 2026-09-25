@@ -1115,16 +1115,18 @@ The Minimum Viable Product should include:
 
 ### Customer
 
-* [ ] Homepage
-* [ ] Navigation
-* [ ] Product listing
-* [ ] Category pages
-* [ ] Search
-* [ ] Filters
-* [ ] Sorting
-* [ ] Product details
-* [ ] Product variants
-* [ ] Cart
+* [x] Homepage
+* [x] Navigation
+* [x] Product listing
+* [x] Category pages
+* [x] Search
+* [x] Filters
+* [x] Sorting
+* [x] Product details
+* [x] Product variants
+* [x] Cart
+* [x] Store discovery & City pages
+* [x] Offers, Combos & Deals
 * [ ] Checkout
 * [ ] Address management
 * [ ] Payment

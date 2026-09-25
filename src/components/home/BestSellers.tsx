@@ -31,10 +31,11 @@ export function BestSellers() {
 
         {/* Product Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {BESTSELLER_PRODUCTS.map((product) => (
-            <ProductCard key={product.id} product={product} />
+          {BESTSELLER_PRODUCTS.map((product, i) => (
+            <ProductCard key={product.id} product={product} priority={i < 2} />
           ))}
         </div>
+
       </Container>
     </section>
   );

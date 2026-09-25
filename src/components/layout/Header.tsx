@@ -7,6 +7,7 @@ import { DesktopNavigation }  from "./DesktopNavigation";
 import { MobileHeader }       from "./MobileHeader";
 import { SearchBar }          from "./SearchBar";
 import { MobileMenu }         from "./MobileMenu";
+import { useCart }            from "@/context/CartContext";
 
 /**
  * Header — site-wide fixed header orchestrator.
@@ -33,7 +34,7 @@ import { MobileMenu }         from "./MobileMenu";
 export function Header() {
   const [isScrolled, setIsScrolled]       = useState(false);
   const [isMobileOpen, setIsMobileOpen]   = useState(false);
-  const cartCount                          = 0; /* Replace with cart context */
+  const { cartCount }                     = useCart();
 
   /* Scroll shadow */
   useEffect(() => {

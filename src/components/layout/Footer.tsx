@@ -118,13 +118,13 @@ export function Footer() {
             </h4>
             <ul className="space-y-2 text-sm text-[#A2B3AA]">
               <li>
-                <Link href="/corporate-gifting" className="hover:text-white transition-colors">
+                <Link href="/gifting/corporate" className="hover:text-white transition-colors">
                   Corporate Gifting Suite
                 </Link>
               </li>
               <li>
-                <Link href="/bulk-orders" className="hover:text-white transition-colors">
-                  Bulk & Wholesale Orders
+                <Link href="/gifting" className="hover:text-white transition-colors">
+                  Bulk &amp; Wholesale Hampers
                 </Link>
               </li>
               <li className="pt-2 text-xs">
@@ -148,10 +148,11 @@ export function Footer() {
             <Link href="/terms-of-service" className="hover:text-white transition-colors">
               Terms of Service
             </Link>
-            <Link href="/sitemap" className="hover:text-white transition-colors">
+            <Link href="/sitemap.xml" className="hover:text-white transition-colors">
               Sitemap
             </Link>
           </div>
+
 
           <div className="flex items-center gap-2 text-[11px] text-[#A2B3AA]">
             <span>Secured with 256-bit SSL</span>

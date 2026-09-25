@@ -8,6 +8,7 @@ interface QuantitySelectorProps {
   /** "sm" — compact for cart line; "md" — standard for product detail */
   size?: "sm" | "md";
   className?: string;
+  disabled?: boolean;
 }
 
 /**
@@ -23,12 +24,13 @@ export function QuantitySelector({
   max = 99,
   size = "md",
   className = "",
+  disabled = false,
 }: QuantitySelectorProps) {
   function decrement() {
-    if (value > min) onChange(value - 1);
+    if (!disabled && value > min) onChange(value - 1);
   }
   function increment() {
-    if (value < max) onChange(value + 1);
+    if (!disabled && value < max) onChange(value + 1);
   }
 
   const btnSize  = size === "sm" ? "w-7 h-7 text-sm"  : "w-9 h-9 text-base";
@@ -40,14 +42,14 @@ export function QuantitySelector({
       aria-label="Quantity"
       className={[
         "flex items-center rounded-xl border border-[var(--color-surface-border)] overflow-hidden",
-        "bg-white",
+        disabled ? "bg-[var(--color-surface-muted)] opacity-60 pointer-events-none" : "bg-white",
         className,
       ].filter(Boolean).join(" ")}
     >
       <button
         type="button"
         onClick={decrement}
-        disabled={value <= min}
+        disabled={disabled || value <= min}
         aria-label="Decrease quantity"
         className={[
           btnSize,

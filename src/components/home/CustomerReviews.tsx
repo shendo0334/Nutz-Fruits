@@ -41,7 +41,7 @@ const REVIEWS: ReviewItem[] = [
 
 export function CustomerReviews() {
   return (
-    <section className="py-16 md:py-24 bg-[var(--color-surface-cream)] border-b border-[var(--color-surface-border)]">
+    <section className="py-16 md:py-24 bg-[var(--color-surface-cream)] border-b border-[var(--color-surface-border)] cv-auto">
       <Container>
         {/* Header with aggregate score */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">

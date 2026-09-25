@@ -17,7 +17,7 @@ export function CorporateGifting() {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-[#1D4031] text-white relative overflow-hidden">
+    <section className="py-16 md:py-24 bg-[#1D4031] text-white relative overflow-hidden cv-auto">
       {/* Background visual elements */}
       <div
         className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full blur-3xl opacity-10 bg-[#A89550] pointer-events-none"

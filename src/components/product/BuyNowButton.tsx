@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Product, ProductVariant } from "@/types/product";
+import { useCart } from "@/context/CartContext";
 
 interface BuyNowButtonProps {
   product: Product;
@@ -15,8 +16,7 @@ interface BuyNowButtonProps {
 /**
  * BuyNowButton — secondary "Buy Now" CTA.
  *
- * Skips cart, takes the user directly to checkout.
- * Replace the router.push with a real checkout session creation.
+ * Adds the item directly to the cart and takes the user to the cart/checkout flow.
  */
 export function BuyNowButton({
   product,
@@ -27,20 +27,15 @@ export function BuyNowButton({
 }: BuyNowButtonProps) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { addItem } = useCart();
   const isOOS = !variant.inStock;
 
   async function handleClick() {
     if (loading || isOOS) return;
     setLoading(true);
 
-    /* ─── Replace with real checkout session creation ─────── */
-    const params = new URLSearchParams({
-      productId: product.id,
-      variantId: variant.id,
-      qty: String(quantity),
-    });
-    router.push(`/checkout/quick?${params.toString()}`);
-    /* ──────────────────────────────────────────────────────── */
+    addItem(product, variant, quantity);
+    router.push("/cart");
   }
 
   const sizeClasses =

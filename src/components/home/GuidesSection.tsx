@@ -39,7 +39,7 @@ const ARTICLES: GuideArticle[] = [
 
 export function GuidesSection() {
   return (
-    <section className="py-16 md:py-24 bg-white border-b border-[var(--color-surface-border)]">
+    <section className="py-16 md:py-24 bg-white border-b border-[var(--color-surface-border)] cv-auto">
       <Container>
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">

@@ -1,3 +1,5 @@
+import { useId } from "react";
+
 interface RatingProps {
   average: number;   /* 0–5 */
   count?: number;
@@ -71,7 +73,8 @@ export function Rating({
 /* ── Star icon ─────────────────────────────────────────────── */
 
 function StarIcon({ size, filled, half }: { size: number; filled: boolean; half: boolean }) {
-  const id = `half-${Math.random().toString(36).slice(2, 7)}`;
+  const generatedId = useId();
+  const id = `half-${generatedId.replace(/:/g, "")}`;
   const gold = "var(--color-accent-gold, #A89550)";
 
   return (

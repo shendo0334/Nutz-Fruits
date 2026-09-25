@@ -1265,29 +1265,74 @@ Redis may be introduced when the application requires shared server-side caching
 
 # 42. Search Architecture
 
-Initial search can use database-supported search.
+### 42.1 Overview & Client-Side Engine (Implemented in Phase 14)
 
-Example:
+The search layer is powered by a high-performance, fuzzy-tolerant search engine (`@/lib/search.ts`) with live autocomplete, multi-dimensional scoring, and localStorage-backed recent searches:
+
+```text
+User Input / Header SearchBar / /search Page
+   ↓
+Query Normalization & Tokenization
+   ↓
+Synonym & Vernacular Resolution (e.g., "badam" → almond, "kaju" → cashew, "elaichi" → cardamom)
+   ↓
+Fuzzy Levenshtein Typo Matcher (distance ≤ 2 for vocabulary corrections & "Did you mean" prompts)
+   ↓
+Multi-field Scorer (Exact > Prefix > Subcategory/Tags > Category > Highlights > Description)
+   ↓
+Dynamic Filters (Category, In-stock, Price Range, Rating) & Sorters (Relevance, Price, Rating, Newest)
+   ↓
+Search Results View / Autocomplete Popover / No-Result Smart Fallback Picks
+```
+
+### 42.2 Future Scaled Search Architecture
+
+Initial production deployment uses database-supported full-text search (`pg_trgm` / PostgreSQL text search) via backend APIs.
 
 ```text
 Customer
    ↓
-Search API
+Search API (/api/search)
    ↓
-PostgreSQL
+PostgreSQL Full-Text Search / Redis Query Cache
    ↓
 Search Results
 ```
 
-If product volume grows significantly, a dedicated search engine can be introduced later.
+If product volume grows significantly (>10,000 SKUs), a dedicated distributed search cluster can be introduced:
 
-Possible future technologies:
+* **OpenSearch / Elasticsearch** (Self-hosted or managed)
+* **Algolia / Meilisearch** (Instant hosted search index)
 
-* OpenSearch
-* Elasticsearch
-* Algolia
+The MVP avoids unnecessary external search SaaS dependencies while delivering instant, typo-tolerant search across all devices.
 
-The MVP should avoid introducing a dedicated search engine unless required.
+---
+
+# 42.3 Cart & State Architecture (Implemented in Phase 15)
+
+The shopping cart is managed globally via React Context (`@/context/CartContext.tsx`) with automatic local persistence:
+
+```text
+Product Card / Detail Page / Buy Now
+   ↓
+Cart Context (useCart Hook)
+   ├── items: CartItem[] (Product + Variant + Quantity)
+   ├── updateQuantity() / removeItem() / clearCart()
+   ├── LocalStorage Persistence (SSR Hydration Safe)
+   ├── Dynamic Coupon Engine (FRESH20, NUTZ10, FESTIVE50)
+   ├── Free Delivery Progress Meter (Threshold: ₹499)
+   └── Order Summary Calculator (Subtotal, MRP Savings, Coupons, Shipping, Grand Total)
+   ↓
+/cart Page & Sticky Mobile Checkout Bar
+   ↓
+/checkout (Phase 16)
+```
+
+### Key Cart Behaviors
+* **Cross-component reactivity**: Header cart badge counters update immediately upon item additions.
+* **Variant-level granularity**: Line items are uniquely keyed by `${productId}-${variantId}`.
+* **Smart Promo Engine**: Supports percentage, flat, and minimum order validation for promotional codes.
+* **Mobile-first conversion**: Features a sticky bottom checkout CTA bar for seamless one-thumb checkout progression.
 
 ---
 
@@ -1312,6 +1357,55 @@ The application should generate:
 * Robots configuration
 
 Product pages should provide appropriate structured product information.
+
+---
+
+# 43.1 Store Discovery & Omnichannel Architecture (Implemented in Phase 17)
+
+Retail stores and experiential tasting lounges are structured with SSG-optimized routing:
+
+```text
+/stores
+   ├── Hub Directory (Search by Area / Landmark / Pincode)
+   ├── City Pills Selector (Bengaluru, Mumbai, Delhi NCR, Hyderabad)
+   ├── In-Store Experiential Pillars (Live Tasting Bar, Nut Butter Churner, Hamper Atelier)
+   └── Store Cards (Directions, Contacts, Live Timings, Amenities)
+
+/stores/[city]
+   ├── City-specific Pre-rendered Route (generateStaticParams)
+   ├── City Hero & Concierge Direct Call CTAs
+   ├── Local Store Cards Grid
+   ├── Same-Day Store Pickup & Local Studio Services
+   └── Inter-City Navigation Jump Links
+```
+
+### Store Data Structure
+* Domain model defined in `@/types/store.ts` with complete metadata (`area`, `address`, `landmark`, `timings`, `days`, `phone`, `whatsapp`, `email`, `mapUrl`, `features`, `rating`, `isFlagship`).
+* Pre-rendering: All city routes are generated at build time via `generateStaticParams()` for instant SEO indexing and ultra-fast page delivery.
+
+---
+
+# 43.2 Offers & Promotion Architecture (Implemented in Phase 18)
+
+Promotions, flash deals, combos, bulk packages, and festive gift bundles are structured through a unified promotional schema:
+
+```text
+/offers & /shop/offers
+   ├── Flash Deals Hero & Live Countdown Clock
+   ├── 1-Click Coupon Code Activation Bar (FRESH20, NUTZ10, FESTIVE50)
+   ├── Category Filters (Today's Deals, Discounts, Combos, Bulk Savers, Gift Hampers)
+   ├── Offer Cards (MRP, Offer Price, Savings, Validity, Bundle Items, Stock Progress Bar)
+   ├── Direct 1-Click Add-to-Cart Integration (CartContext)
+   ├── Bank & Payment Partner Cashback Matrix
+   └── Wholesale & Corporate Custom Gifting Desk
+```
+
+### Deal Types
+1. **Flash Deals (`today`)**: Time-sensitive 24h specials with urgency countdowns and limited stock indicators.
+2. **Direct Discounts (`discounts`)**: Straight percentage and rupee reductions on hero catalogue SKUs.
+3. **Value Combos (`combos`)**: Multi-item immunity and breakfast packs delivering combined bundle savings.
+4. **Bulk Savers (`bulk`)**: 1kg/2kg family packs with tiered wholesale per-gram rates.
+5. **Festive Gifts (`gifts`)**: Keepsake wooden boxes and potlis with complimentary cards and ribbons.
 
 ---
 
@@ -2208,8 +2302,88 @@ The architecture is considered sufficiently defined when:
 * [ ] Security principles are documented.
 * [ ] Deployment flow is documented.
 * [ ] Project folder structure is documented.
-* [ ] Git workflow is identified.
-* [ ] Scalability strategy is documented.
+* [x] Git workflow is identified.
+* [x] Scalability strategy is documented.
 
 ---
+
+# 76. SEO & Metadata Architecture (Phase 19)
+
+### 76.1 Architecture Overview
+The platform implements an automated, typed Next.js App Router metadata and Schema.org structured data engine configured in `src/lib/seo.ts`.
+
+### 76.2 Metadata & OpenGraph Engine
+* **Canonical URLs**: Formatted via `getCanonicalUrl(path)` ensuring single-source authority across all canonical links.
+* **Open Graph & Twitter Cards**: Standardized 1200x630 visual preview cards with locale `en_IN` and dynamic image overrides.
+* **Dynamic Robots**: `src/app/robots.ts` serving `/robots.txt` allowing public indexing while disallowing sensitive internal routes (`/api/`, `/checkout/`, `/account/`).
+* **Dynamic XML Sitemap**: `src/app/sitemap.ts` generating `/sitemap.xml` with priority and change frequencies for all static routes, dynamic product pages (`/products/[slug]`), and physical store discovery pages (`/stores/[city]`).
+
+### 76.3 Schema.org Structured Data
+* **Organization & WebSite Schema**: Global sitewide schema embedded in root layout with `SearchAction` deep linking into `/search?q={search_term_string}`.
+* **Product & Offer Schema**: Injected on product detail pages and `/offers` with validated pricing, in-stock availability, shipping details, and genuine ratings only (ratings omitted when review count is 0).
+* **BreadcrumbList Schema**: Injected across category, subcategory, product, content, and discovery pages.
+* **LocalBusiness / Store Schema**: Applied across retail lounge pages with coordinates, operating hours, and contact details.
+* **Article & Recipe Schema**: Integrated on `/blog`, `/guides`, and `/recipes` rich content pages.
+
+---
+
+# 77. Performance & Core Web Vitals Architecture (Phase 20)
+
+### 77.1 Mobile-First Performance Strategy (~75% Mobile Traffic)
+* **Modern Image Optimization (`next.config.ts`)**:
+  * Formats: Automated conversion to Next-Gen `image/avif` and `image/webp` based on client `Accept` headers.
+  * Responsive Sizing: Device sizes `[360, 480, 640, 750, 828, 1080, 1200, 1920]` and explicit `sizes` definitions preventing over-fetching high-DPI assets on cellular networks.
+  * Caching: 30-day `minimumCacheTTL` for processed responsive media.
+* **LCP (Largest Contentful Paint) Optimization**:
+  * Hero & Above-the-fold Priority: `priority={true}` and `fetchPriority="high"` on hero visuals, PDP main gallery, and first 2 cards in category/bestseller grids.
+  * DNS Prefetch & Preconnect: Pre-establishing TLS/TCP handshakes to external image CDN hosts (`https://placehold.co`) in root layout `<head>`.
+  * Font Optimization: Google Fonts (`Inter`, `Playfair Display`) loaded via `next/font/google` with `display: 'swap'` and zero runtime font shift.
+* **CLS (Cumulative Layout Shift) Elimination**:
+  * Strict Aspect-Ratio Preservation: Aspect wrappers (`aspect-square`, `aspect-[4/3]`, `aspect-[16/9]`) on all media and product cards before images load.
+  * No ad-hoc dynamic insertions: Skeletons and predefined dimension reservations on interactive drawers and filters.
+* **INP (Interaction to Next Paint) Optimization**:
+  * Content Visibility: `.cv-auto` (`content-visibility: auto; contain-intrinsic-size: 1px 400px;`) applied across off-screen sections (reviews, guides, newsletters) to defer non-critical layout compute.
+  * Non-blocking UI: Responsive state updates with unblocked main thread for autocomplete, filters, and mobile drawer interactions.
+* **TTFB (Time to First Byte)**:
+  * Static Site Generation (SSG) with `generateStaticParams()` pre-rendering dynamic product pages (`/products/[slug]`) and city store pages (`/stores/[city]`).
+
+---
+
+# 78. Accessibility Architecture (Phase 21 — WCAG 2.1 AA Compliance)
+
+### 78.1 Core Principles & Standards
+The Nutz N Fruitz web application follows WCAG 2.1 Level AA accessibility standards, ensuring an inclusive shopping experience for keyboard-only users, screen reader users, and people with motor or cognitive sensitivities.
+
+### 78.2 Key Accessibility Dimensions Implemented
+1. **Semantic HTML5 Foundation**:
+   - Landmark regions: `<header role="banner">`, `<main id="main-content" tabIndex={-1}>`, `<nav role="navigation">`, `<footer role="contentinfo">`, `<section>`, `<article>`, and `<aside>`.
+   - Data tables: Proper `<thead>`, `<tbody>`, `<th scope="row">`, and table `aria-label`s for nutrition tables.
+2. **Keyboard Navigation & Skip Links**:
+   - Global `"Skip to main content"` bypass block (`sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50...`) allowing screen reader and keyboard users to jump past navigation directly to page content.
+   - Logical tab sequencing across all headers, cards, modals, search inputs, tabs, and interactive drawer widgets.
+   - Standard keyboard activation (Enter / Space / Escape) on dropdowns, accordions, and dialogs.
+3. **Focus Management & Visual States**:
+   - Universal `:focus-visible` styling (`outline: 2px solid var(--color-brand-forest); outline-offset: 2px;`) providing unmistakable visual indicator without affecting mouse clickers.
+   - Tailwind `focus-visible:ring-2 focus-visible:ring-[var(--color-brand-forest)] focus-visible:ring-offset-2 focus:outline-none` across interactive controls.
+4. **Color Contrast (WCAG 2.1 AA Compliant)**:
+   - High-contrast text pairings: Deep Forest `#163A24` and Dark Charcoal `#1B231C` on `#FFFFFF` / `#FDFBF7` (> 7:1 contrast ratio, surpassing 4.5:1 requirement).
+   - Secondary text `#4A584E` and `#718096` maintaining > 4.5:1 against light card backgrounds.
+5. **Alt Text & Decorative Graphics Handling**:
+   - Meaningful, contextual `alt` descriptions on all product images, category tiles, and brand hero banners.
+   - Purely decorative icons and star ratings explicitly tagged with `aria-hidden="true"`.
+6. **Form Controls & Explicit Labeling**:
+   - All text inputs, search fields, quantity steppers, and coupon forms equipped with explicit `<label>` or `aria-label`.
+   - Error states and helper texts linked via `aria-describedby` and `aria-invalid`.
+7. **Screen Reader Semantics & ARIA Patterns**:
+   - Tabbed Interfaces: `role="tablist"`, `role="tab"`, `aria-selected`, `aria-controls`, and `role="tabpanel"` on PDP specifications, nutrition, reviews, and FAQs.
+   - Accordions: `aria-expanded="true/false"` and `aria-controls="faq-answer-N"` on interactive disclosure triggers.
+   - Search Combobox: Autocomplete states announced with live results counts and search status.
+8. **Heading Hierarchy**:
+   - Strict single `<h1>` per page reflecting the main page subject.
+   - Strict logical descent (`<h2>` for major sections, `<h3>` for cards/sub-sections, `<h4>` for sub-details) with zero skipped levels.
+9. **Touch Target Dimensions**:
+   - Minimum 44x44px touch targets on mobile viewports via `.touch-target` and generous padding around icons, close buttons, bottom navigation bars, and CTA buttons.
+10. **Reduced Motion & Vestibular Safety**:
+    - `@media (prefers-reduced-motion: reduce)` system rule added to `src/app/globals.css` that disables continuous animations, marquee loops, and smooth scroll behaviors for motion-sensitive users.
+
 
