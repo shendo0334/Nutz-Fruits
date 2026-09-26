@@ -7,41 +7,31 @@ interface ContainerProps {
   className?: string;
   /**
    * Maximum width variant.
-   * - `default` — 1280px (max-w-7xl) — standard pages
    * - `narrow`  — 768px  (max-w-3xl) — article, account, checkout
-   * - `wide`    — 1536px (max-w-screen-2xl) — full-bleed sections with inner constraint
+   * - `default` — 1720px (max-w-[1720px]) — expansive, modern D2C layout
+   * - `wide`    — 1920px (max-w-[1920px]) — ultra-wide screens
+   * - `fluid`   — 100%   (w-full) — unconstrained full width
    */
-  size?: "narrow" | "default" | "wide";
+  size?: "narrow" | "default" | "wide" | "fluid";
   /** HTML element to render. Defaults to `div`. */
   as?: "div" | "main" | "section" | "article" | "aside" | "header" | "footer";
 }
 
 const sizeClasses: Record<NonNullable<ContainerProps["size"]>, string> = {
   narrow:  "max-w-3xl",
-  default: "max-w-7xl",
-  wide:    "max-w-screen-2xl",
+  default: "max-w-[1720px]",
+  wide:    "max-w-[1920px]",
+  fluid:   "w-full",
 };
 
 /**
- * Container — horizontal centering + max-width + page gutters.
+ * Container — horizontal centering + responsive expansive gutters.
  *
- * Use this as the outermost wrapper for all page content.
- *
- * Gutter scale (from frontend.md §3.5):
+ * Gutter scale:
  *   mobile  → px-4  (16px)
  *   sm      → px-6  (24px)
- *   lg      → px-8  (32px)
- *   xl      → px-12 (48px)
- *
- * @example
- * <Container>
- *   <h1>Page title</h1>
- * </Container>
- *
- * @example
- * <Container size="narrow">
- *   <CheckoutForm />
- * </Container>
+ *   md      → px-10 (40px)
+ *   lg/xl   → px-16 (64px)
  */
 export function Container({
   children,
@@ -53,7 +43,7 @@ export function Container({
     <Tag
       className={[
         "w-full mx-auto",
-        "px-4 sm:px-6 lg:px-8 xl:px-12",
+        "px-4 sm:px-6 md:px-10 lg:px-16",
         sizeClasses[size],
         className,
       ]
@@ -64,3 +54,4 @@ export function Container({
     </Tag>
   );
 }
+

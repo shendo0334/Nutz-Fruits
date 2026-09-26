@@ -453,6 +453,143 @@ export const PRODUCTS: Product[] = [
       "Dedicated account manager for corporate bulk orders",
     ],
   }),
+
+  createProduct({
+    id: "p-011",
+    slug: "toblerone-swiss-milk-chocolate-honey-almond-nougat",
+    name: "Toblerone Swiss Milk Chocolate — Honey & Almond Nougat",
+    shortDescription: "Iconic Swiss milk chocolate with honey and crunchy almond nougat in the legendary triangular prism bar.",
+    description:
+      "Crafted in Bern, Switzerland since 1908, Toblerone is the quintessential Swiss chocolate masterwork. Featuring smooth Swiss milk chocolate infused with luscious golden honey and crisp almond nougat triangles. Perfect as a gourmet treat, luxury gift, or sweet pairing with roasted whole nuts.",
+    category: "imported",
+    subcategory: "confectionery",
+    images: [
+      {
+        src: "/images/products/toblerone-swiss-milk-honey-nougat.jpg",
+        alt: "Toblerone Swiss Milk Chocolate with Honey and Almond Nougat 100g",
+        width: 800,
+        height: 1200,
+      },
+    ],
+    variants: [
+      createVariant({ id: "p-011-100", label: "100g Classic Bar", price: 195, mrp: 250, availability: "in_stock", sku: "TOB-MILK-100", stockQuantity: 65 }),
+      createVariant({ id: "p-011-300", label: "300g (Pack of 3)", price: 549, mrp: 750, availability: "in_stock", sku: "TOB-MILK-300", stockQuantity: 30 }),
+      createVariant({ id: "p-011-360", label: "360g Giant Bar", price: 680, mrp: 899, availability: "limited", sku: "TOB-MILK-360", stockQuantity: 14 }),
+    ],
+    rating: { average: 4.9, count: 1420 },
+    badges: ["bestseller", "premium"],
+    featured: true,
+    tags: ["toblerone", "chocolate", "swiss", "imported", "honey", "almond", "nougat", "sweets", "desserts"],
+    origin: "Bern, Switzerland",
+    shelfLife: "15 Months",
+    storageInstructions: "Store in a cool, dry place between 12°C - 18°C away from direct sunlight.",
+    highlights: [
+      "100% Authentic imported Swiss milk chocolate",
+      "Rich blend of Alpine milk, golden honey, and almond nougat (10%)",
+      "Signature iconic triangular prism peaks",
+      "Crafted in Switzerland with sustainable cocoa sourcing",
+    ],
+    nutritionalInfo: {
+      servingSize: "25g (approx. 3-4 peaks)",
+      calories: "131 kcal",
+      protein: "1.4g",
+      fat: "7.3g",
+      carbs: "15.0g",
+      sugar: "14.8g",
+      fiber: "0.5g",
+    },
+  }),
+
+  createProduct({
+    id: "p-012",
+    slug: "toblerone-fruit-and-nut-milk-chocolate",
+    name: "Toblerone Fruit & Nut — Swiss Chocolate with Raisins",
+    shortDescription: "Swiss milk chocolate packed with juicy California raisins, golden honey, and crunchy almond nougat.",
+    description:
+      "An indulgent fusion of rich Swiss milk chocolate, sun-ripened juicy raisins, and signature honey & almond nougat pieces. The crisp nutty chew of nougat combined with sweet raisins delivers a delightful texture in every iconic peak.",
+    category: "imported",
+    subcategory: "confectionery",
+    images: [
+      {
+        src: "/images/products/toblerone-fruit-and-nut.jpg",
+        alt: "Toblerone Fruit and Nut Milk Chocolate Bar 100g",
+        width: 800,
+        height: 1200,
+      },
+    ],
+    variants: [
+      createVariant({ id: "p-012-100", label: "100g Bar", price: 210, mrp: 275, availability: "in_stock", sku: "TOB-FN-100", stockQuantity: 50 }),
+      createVariant({ id: "p-012-300", label: "300g (Pack of 3)", price: 585, mrp: 825, availability: "in_stock", sku: "TOB-FN-300", stockQuantity: 25 }),
+    ],
+    rating: { average: 4.8, count: 980 },
+    badges: ["premium", "new"],
+    featured: true,
+    tags: ["toblerone", "chocolate", "fruit-and-nut", "raisins", "almond", "swiss", "imported", "sweets", "desserts"],
+    origin: "Bern, Switzerland",
+    shelfLife: "15 Months",
+    storageInstructions: "Store in a cool, dark, temperature-controlled pantry (15°C–18°C).",
+    highlights: [
+      "Sun-ripened raisins (14%) blended with Swiss chocolate",
+      "Loaded with honey and almond nougat crunch (10%)",
+      "Authentic Swiss confection with velvety melt",
+      "Great for snacking, luxury gifting, and dessert pairings",
+    ],
+    nutritionalInfo: {
+      servingSize: "25g",
+      calories: "128 kcal",
+      protein: "1.3g",
+      fat: "6.8g",
+      carbs: "15.5g",
+      sugar: "15.0g",
+      fiber: "0.6g",
+    },
+  }),
+
+  createProduct({
+    id: "p-013",
+    slug: "twix-caramel-cookie-almond-chocolate-bar",
+    name: "Twix Caramel Cookie & Almond Crunch Chocolate Bar",
+    shortDescription: "Crispy biscuit bars layered with decadent gooey caramel, roasted almond notes, and wrapped in rich milk chocolate.",
+    description:
+      "Experience the ultimate textural delight: a crispy, golden-baked cookie bar topped with thick, velvety caramel sauce, paired with crunchy roasted almond accents, all enveloped in silky milk chocolate. Perfect for sharing or elevating afternoon coffee and snack moments.",
+    category: "imported",
+    subcategory: "confectionery",
+    images: [
+      {
+        src: "/images/products/twix-caramel-cookie-bar.jpg",
+        alt: "Twix Caramel Cookie Bar with whole almonds and caramel",
+        width: 800,
+        height: 1200,
+      },
+    ],
+    variants: [
+      createVariant({ id: "p-013-50", label: "50g Twin Bar", price: 95, mrp: 125, availability: "in_stock", sku: "TWX-CAR-50", stockQuantity: 120 }),
+      createVariant({ id: "p-013-100", label: "100g 4-Finger Pack", price: 175, mrp: 230, availability: "in_stock", sku: "TWX-CAR-100", stockQuantity: 75 }),
+      createVariant({ id: "p-013-300", label: "300g (Pack of 6)", price: 499, mrp: 699, availability: "in_stock", sku: "TWX-CAR-300", stockQuantity: 40 }),
+    ],
+    rating: { average: 4.8, count: 1840 },
+    badges: ["bestseller", "sale"],
+    featured: true,
+    tags: ["twix", "caramel", "chocolate", "cookie", "almond", "imported", "snacks", "dessert", "party-snacks"],
+    origin: "Imported",
+    shelfLife: "12 Months",
+    storageInstructions: "Store in a cool, dry place. Keep away from direct sunlight and moisture.",
+    highlights: [
+      "Triple layer: Crispy baked shortbread biscuit, gooey caramel, smooth milk chocolate",
+      "Gourmet pairing with roasted almonds and sea salt flakes",
+      "Individually wrapped twin bars for on-the-go crunch",
+      "Zero artificial preservatives",
+    ],
+    nutritionalInfo: {
+      servingSize: "50g (1 pack / 2 bars)",
+      calories: "248 kcal",
+      protein: "2.4g",
+      fat: "12.0g",
+      carbs: "32.0g",
+      sugar: "24.5g",
+      fiber: "0.8g",
+    },
+  }),
 ];
 
 
@@ -573,7 +710,7 @@ export function getAllCategories(): { slug: string; name: string; count: number 
     "dry-fruits": "Dry Fruits",
     "nuts": "Nuts & Seeds",
     "spices": "Exotic Spices",
-    "imported": "Imported Fruits & Dates",
+    "imported": "Imported Delights & Chocolates",
     "gifting": "Gifting & Hampers",
   };
 

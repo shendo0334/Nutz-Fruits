@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Hero }               from "@/components/home/Hero";
 import { ShopByCategory }     from "@/components/home/ShopByCategory";
 import { BestSellers }        from "@/components/home/BestSellers";
-import { FeaturedOffer }      from "@/components/home/FeaturedOffer";
 import { ProductCollections } from "@/components/home/ProductCollections";
 import { WhyUs }              from "@/components/home/WhyUs";
 import { GiftingSection }     from "@/components/home/GiftingSection";
@@ -25,15 +24,14 @@ export const metadata: Metadata = {
  * 1. Hero
  * 2. Shop By Category
  * 3. Best Sellers
- * 4. Featured Offer
- * 5. Product Collections
- * 6. Why Nutz N Fruitz
- * 7. Gifting
- * 8. Corporate Gifting
- * 9. Store Discovery
- * 10. Customer Reviews
- * 11. Guides
- * 12. WhatsApp / Newsletter
+ * 4. Product Collections
+ * 5. Why Nutz N Fruitz
+ * 6. Gifting
+ * 7. Corporate Gifting
+ * 8. Store Discovery
+ * 9. Customer Reviews
+ * 10. Guides
+ * 11. WhatsApp / Newsletter
  */
 export default function HomePage() {
   return (
@@ -47,10 +45,7 @@ export default function HomePage() {
       {/* 3. Best Sellers */}
       <BestSellers />
 
-      {/* 4. Featured Offer */}
-      <FeaturedOffer />
-
-      {/* 5. Product Collections */}
+      {/* 4. Product Collections */}
       <ProductCollections />
 
       {/* 6. Why Nutz N Fruitz */}

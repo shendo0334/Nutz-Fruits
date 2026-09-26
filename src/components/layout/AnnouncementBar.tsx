@@ -13,7 +13,7 @@ import { WHATSAPP_NUMBER } from "@/lib/navigation";
  */
 export function AnnouncementBar() {
   return (
-    <div className="hidden lg:flex items-center justify-between h-9 px-8 xl:px-12 bg-[var(--color-surface-muted)] border-b border-[var(--color-surface-border)]">
+    <div className="hidden lg:flex items-center justify-between h-9 px-4 sm:px-6 md:px-10 lg:px-16 max-w-[1720px] mx-auto w-full bg-[var(--color-surface-muted)] border-b border-[var(--color-surface-border)]">
       {/* Left — promo */}
       <p className="text-xs text-[var(--color-content-muted)]">
         🎁&nbsp; Free delivery on orders above{" "}

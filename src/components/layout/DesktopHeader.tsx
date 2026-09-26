@@ -15,7 +15,7 @@ interface DesktopHeaderProps {
  */
 export function DesktopHeader({ cartCount }: DesktopHeaderProps) {
   return (
-    <div className="hidden lg:flex items-center gap-6 h-16 px-8 xl:px-12 bg-white border-b border-[var(--color-surface-border)]">
+    <div className="hidden lg:flex items-center gap-6 h-16 px-4 sm:px-6 md:px-10 lg:px-16 max-w-[1720px] mx-auto w-full bg-white border-b border-[var(--color-surface-border)]">
       {/* Logo */}
       <Link
         href="/"

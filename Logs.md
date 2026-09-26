@@ -398,7 +398,73 @@ Built all 12 planned homepage sections in the exact architectural sequence:
 - `History.md`:
   - Updated status and milestones table for Phase 21 Accessibility.
 
+---
 
+## Phase 22 — Shop by Category Media Showcase Grid
 
+**Updated Files & Features:**
+- `src/components/home/ShopByCategory.tsx`:
+  - Transformed the category section into a Farmley-inspired **4-Category Media Showcase Grid** covering:
+    1. **Dry Fruits & Nutz** (`/shop/dry-fruits`): California Almonds, Jumbo Cashews, Kashmiri Walnuts & Afghan Raisins
+    2. **Luxury Gifting** (`/gifting`): Artisanal keepsake wooden chests, embroidered brocade potlis & bespoke hampers
+    3. **Exotic Spices** (`/shop/spices`): Single-estate Kerala cardamom & Grade-A Kashmiri saffron
+    4. **Healthy Mixes** (`/shop/nuts`): Omega-3 super seed blends, slow-roasted seasoned foxnuts & daily energy trail packs
+  - Implemented high-contrast floating action pill CTAs (`Explore <Category> →`) with dedicated theme accent colors.
+  - Added full-bleed photographic backgrounds with ambient zoom on hover (`scale-105` over 700ms with `motion-reduce:transform-none` safeguard).
+  - Responsive multi-device layout: 2x2 balanced grid on desktop, touch-friendly swipe carousel with scroll snapping on mobile.
+  - Verified static pre-rendering across all 43 app routes (`next build` succeeded with exit code 0).
 
+---
+
+## Phase 23 — Sitewide Expansive Container & Layout Architecture
+
+**Updated Files & Layout Tokens:**
+- `src/components/ui/Container.tsx`:
+  - Upgraded global `Container` component from `max-w-7xl` (`1280px`) to modern expansive width `max-w-[1720px]` with support for `wide` (`1920px`) and `fluid` (`100%`).
+  - Standardized modern responsive gutters: `px-4 sm:px-6 md:px-10 lg:px-16`.
+- `src/components/home/ShopByCategory.tsx`:
+  - Applied the unified `Container` to the 4-category media grid with smooth responsive scaling.
+- `src/components/layout/DesktopHeader.tsx` & `AnnouncementBar.tsx`:
+  - Aligned header brand row and top utility bar to the new `1720px` width and `px-4 sm:px-6 md:px-10 lg:px-16` gutters for seamless vertical alignment across the entire website.
+- Verified compilation and static generation across all 43 routes.
+
+---
+
+## Phase 24 — Best Sellers Tabbed Collection Switcher & Swiper Carousel
+
+**Updated Files & Features:**
+- `src/components/home/BestSellers.tsx`:
+  - Rebuilt the section into a Farmley-inspired **Interactive Tabbed Collection Switcher** with:
+    1. **Party Snacks & Mixes** (`🍿`): Crunchy roasted nuts, seasoned blends, protein seeds
+    2. **Signature Dry Fruits** (`🌰`): California Almonds, W320 Cashews, Walnuts, Pistachios
+    3. **Natural Dates & Fruits** (`🍇`): Jordanian Medjool Dates, Dried Turkish Apricots
+    4. **Festive Luxury Hampers** (`🎁`): Keepsake Wooden Gift Boxes, Curated celebration packs
+  - **Horizontal Swiper Carousel**: Smooth touch-drag & trackpad scroll with snap-alignment (`snap-start`).
+  - **Dynamic Controls**: Left (`←`) and Right (`→`) arrow navigation buttons with auto-disabling at scroll boundaries.
+  - **Live Progress Bar**: Synchronized linear indicator tracking percentage of items viewed (`0% → 100%`).
+  - Full adherence to the 8px grid system, WCAG AA compliance, and expansive container width.
+  - Verified static generation across all 43 routes (`next build` exited 0).
+
+---
+
+## Phase 25 — Homepage Refinement
+
+- Removed redundant promotional banner section (`FeaturedOffer.tsx`) from the homepage stream in `src/app/page.tsx`, streamlining direct flow from **Shop by Category** and **Best Sellers** into the **Product Collections** showcase.
+- Verified build and static generation across all routes.
+
+---
+
+## Phase 26 — Product Asset Integration & Imported Confectionery Catalog
+
+**Added Assets:**
+- `public/images/products/toblerone-swiss-milk-honey-nougat.jpg` — Authentic Swiss Milk Chocolate Bar with honey & almond nougat.
+- `public/images/products/toblerone-fruit-and-nut.jpg` — Swiss Milk Chocolate Bar with California raisins & almond nougat.
+- `public/images/products/twix-caramel-cookie-bar.jpg` — Crispy cookie bar with gooey caramel, milk chocolate, and roasted almond notes.
+
+**Catalog Updates (`src/data/products.ts`):**
+- Added `p-011`: **Toblerone Swiss Milk Chocolate — Honey & Almond Nougat** (100g, 300g, 360g variants) with origin Bern, Switzerland and full nutrition/shelf-life specifications.
+- Added `p-012`: **Toblerone Fruit & Nut — Swiss Chocolate with Raisins** (100g, 300g variants) with imported confectionery badges.
+- Added `p-013`: **Twix Caramel Cookie & Almond Crunch Chocolate Bar** (50g, 100g, 300g variants) with multi-finger pack options.
+- Updated category registry to include *"Imported Delights & Chocolates"*.
+- Verified Next.js production build (`next build`) — 46/46 routes pre-rendered with zero errors (SSG dynamic pages generated for all 13 products).
 
