@@ -105,6 +105,8 @@ export interface Product {
   storageInstructions?: string;
   /** Key health highlights / bullets */
   highlights?: string[];
+  /** 5 structured description points */
+  descriptionPoints?: string[];
   /** Per 100g nutritional facts */
   nutritionalInfo?: NutritionalInfo;
 }

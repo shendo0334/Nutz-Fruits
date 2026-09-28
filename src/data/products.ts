@@ -90,6 +90,13 @@ export const PRODUCTS: Product[] = [
       "No added preservatives, oils, or artificial colors",
       "Vacuum packed for maximum crunch and freshness",
     ],
+    descriptionPoints: [
+      "Handpicked blend of 100% natural, premium California Nonpareil Extra No. 1 almonds.",
+      "Carefully graded with zero adulteration, artificial preservatives, or chemical polish.",
+      "High natural source of plant protein, dietary fiber, and healthy monounsaturated fats.",
+      "Rich in antioxidant Vitamin E and magnesium to support heart and brain wellness.",
+      "Versatile and crunchy — perfect for soaked morning routines, daily snacking, or garnishing recipes.",
+    ],
     nutritionalInfo: {
       servingSize: "28g (approx. 23 almonds)",
       calories: "164 kcal",
@@ -134,6 +141,13 @@ export const PRODUCTS: Product[] = [
       "Ideal for kaju katli, festive gifting, and rich curries",
       "100% natural, unpolished",
     ],
+    descriptionPoints: [
+      "Handpicked whole jumbo W320 cashews with a delicate natural crunch and sweet, buttery finish.",
+      "100% natural, raw, and unpolished with zero artificial preservatives or sulfur treatment.",
+      "Naturally abundant in heart-healthy monounsaturated fatty acids and dietary copper.",
+      "Plant-based protein powerhouse supporting muscle repair and sustained daily vitality.",
+      "Versatile gourmet pantry staple — savor whole, toast for snacks, or blend into rich curries and desserts.",
+    ],
     nutritionalInfo: {
       servingSize: "28g (approx. 18 cashews)",
       calories: "157 kcal",
@@ -176,6 +190,13 @@ export const PRODUCTS: Product[] = [
       "Low sodium sea salt seasoning",
       "Rich in lutein and zeaxanthin for eye health",
     ],
+    descriptionPoints: [
+      "Naturally tree-ripened Iranian long-kernel pistachios with open shells for effortless cracking.",
+      "Slow-roasted in small artisanal batches with a delicate pinch of natural mineral sea salt.",
+      "Excellent source of plant protein, dietary fiber, and healthy unsaturated fats.",
+      "Rich in carotenoids (lutein & zeaxanthin) and Vitamin B6 to support eye health and metabolism.",
+      "The perfect guilt-free gourmet snack for tea time, work desks, and premium party platters.",
+    ],
     nutritionalInfo: {
       servingSize: "28g (approx. 49 kernels)",
       calories: "159 kcal",
@@ -216,6 +237,13 @@ export const PRODUCTS: Product[] = [
       "High natural plant-based Omega-3 ALA content",
       "Great for cognitive wellness and cardiac health",
       "No bleaching or chemical processing",
+    ],
+    descriptionPoints: [
+      "Hand-cracked, snow-white Kashmiri Extra Light Halves (ELH) with a rich, smooth flavor.",
+      "100% natural and unbleached, retaining full natural essential oils and buttery aroma.",
+      "Exceptionally rich in Plant Omega-3 ALA to nourish brain health and cognitive function.",
+      "Loaded with polyphenols and natural antioxidants that promote heart health and reduce inflammation.",
+      "Delicious addition to morning oatmeal, fresh fruit bowls, baked goodies, or wholesome snacking.",
     ],
     nutritionalInfo: {
       servingSize: "28g (approx. 7 whole walnuts)",

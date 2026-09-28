@@ -22,31 +22,87 @@ interface ProductDetailViewProps {
   frequentlyBoughtTogether?: Product[];
 }
 
+function getProductDescriptionPoints(product: Product): string[] {
+  if (product.descriptionPoints && product.descriptionPoints.length >= 5) {
+    return product.descriptionPoints.slice(0, 5);
+  }
+
+  const points: string[] = [];
+
+  // Point 1: Handpicked origin / craft
+  points.push(
+    `Handpicked and 100% natural ${product.name}, carefully sourced from ${product.origin || "premier certified growers"}.`
+  );
+
+  // Point 2: Ingredients & purity
+  if (product.highlights && product.highlights.length > 0) {
+    points.push(product.highlights[0]);
+  } else {
+    points.push(
+      "Crafted with zero added artificial preservatives, chemical polishing, or synthetic color enhancers."
+    );
+  }
+
+  // Point 3: Nutrition & energy boost
+  if (product.highlights && product.highlights.length > 1) {
+    points.push(product.highlights[1]);
+  } else {
+    points.push(
+      "Wholesome nutrient-dense superfood providing a clean, natural energy boost rich in protein and fiber."
+    );
+  }
+
+  // Point 4: Antioxidants & wellness
+  if (product.highlights && product.highlights.length > 2) {
+    points.push(product.highlights[2]);
+  } else {
+    points.push(
+      "Packed with vital antioxidants and essential minerals to support daily vitality and overall wellness."
+    );
+  }
+
+  // Point 5: Culinary versatility
+  if (product.highlights && product.highlights.length > 3) {
+    points.push(product.highlights[3]);
+  } else {
+    points.push(
+      "Versatile and delicious — enjoy straight from the pack, or sprinkle over yogurts, salads, and smoothies."
+    );
+  }
+
+  const fallbacks = [
+    "Vacuum-sealed in multi-layer food-grade pouch for peak freshness and crunch.",
+    "100% vegetarian, plant-based superfood suitable for daily active lifestyle and wellness diets.",
+  ];
+  let idx = 0;
+  while (points.length < 5 && idx < fallbacks.length) {
+    points.push(fallbacks[idx++]);
+  }
+
+  return points.slice(0, 5);
+}
+
 export function ProductDetailView({
   product,
   relatedProducts,
   frequentlyBoughtTogether = [],
 }: ProductDetailViewProps) {
   const { addItem } = useCart();
+  const descriptionPoints = getProductDescriptionPoints(product);
+  const nutritionData = product.nutritionalInfo ?? {
+    servingSize: "28g (approx. 1 handful)",
+    calories: "164 kcal",
+    protein: "5.8g",
+    fat: "14.2g",
+    carbs: "6.1g",
+    fiber: "3.5g",
+  };
   /* ── Selected Variant State ──────────────────────────────── */
   const defaultVariant =
     product.variants.find((v) => v.inStock) ?? product.variants[0];
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant>(defaultVariant);
   const [quantity, setQuantity] = useState<number>(1);
 
-  /* ── Pincode Delivery Check State ────────────────────────── */
-  const [pincode, setPincode] = useState("");
-  const [deliveryResult, setDeliveryResult] = useState<string | null>(null);
-
-  const checkPincode = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!/^\d{6}$/.test(pincode.trim())) {
-      setDeliveryResult("Please enter a valid 6-digit Indian PIN code.");
-      return;
-    }
-    const days = pincode.startsWith("56") ? "Tomorrow" : "in 2–3 business days";
-    setDeliveryResult(`⚡ Delivery available! Estimated dispatch: ${days}. Free delivery eligible.`);
-  };
 
   /* ── Tab Navigation State ────────────────────────────────── */
   const [activeTab, setActiveTab] = useState<"description" | "nutrition" | "reviews" | "faqs">("description");
@@ -253,50 +309,52 @@ export function ProductDetailView({
                 />
               </div>
 
-              {/* Delivery Pincode Checker */}
-              <div className="p-4 rounded-2xl border border-[var(--color-surface-border)] bg-white space-y-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-[var(--color-content-primary)] flex items-center gap-1.5">
-                  <span>📍</span> Check Delivery & COD Availability
-                </span>
-                <form onSubmit={checkPincode} className="flex gap-2">
-                  <input
-                    type="text"
-                    maxLength={6}
-                    value={pincode}
-                    onChange={(e) => setPincode(e.target.value.replace(/\D/g, ""))}
-                    placeholder="Enter 6-digit Pincode"
-                    className="flex-1 px-3.5 py-2 rounded-xl border border-[var(--color-surface-border)] text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-forest)]"
-                  />
-                  <button
-                    type="submit"
-                    className="btn btn-secondary px-4 py-2 text-xs font-semibold rounded-xl"
-                  >
-                    Check
-                  </button>
-                </form>
-                {deliveryResult && (
-                  <p className="text-xs font-medium text-[var(--color-brand-forest)] pt-1">
-                    {deliveryResult}
-                  </p>
-                )}
-              </div>
 
-              {/* Key Highlights */}
-              {product.highlights && product.highlights.length > 0 && (
-                <div className="space-y-2 pt-2">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--color-content-secondary)]">
-                    Key Highlights:
-                  </h3>
-                  <ul className="space-y-1.5 text-xs sm:text-sm text-[var(--color-content-secondary)]">
-                    {product.highlights.map((h, i) => (
-                      <li key={i} className="flex items-start gap-2">
-                        <span className="text-[var(--color-brand-forest)] font-bold">✓</span>
-                        <span>{h}</span>
+              {/* Product Description (5 Points + Nutrition Column) */}
+              <div className="product-block product-block-desc space-y-4 pt-3 border-t border-[var(--color-surface-border)]">
+                <div>
+                  <p className="text-sm font-bold text-[var(--color-content-primary)] tracking-wide">
+                    <strong>{product.name}</strong>
+                  </p>
+                  <ul className="mt-2.5 space-y-2 text-xs sm:text-[13px] text-[var(--color-content-secondary)] leading-relaxed list-disc list-outside pl-4">
+                    {descriptionPoints.map((point, i) => (
+                      <li key={i} className="pl-1">
+                        <span>{point}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
-              )}
+
+                {/* Nutrition Column */}
+                <div className="rounded-2xl border border-[var(--color-surface-border)] bg-[var(--color-surface-cream)] p-4 space-y-2.5">
+                  <div className="flex items-center justify-between border-b border-[var(--color-surface-border)] pb-2">
+                    <span className="text-xs font-bold uppercase tracking-wider text-[var(--color-brand-forest)]">
+                      Nutritional Value
+                    </span>
+                    <span className="text-[11px] font-mono text-[var(--color-content-muted)]">
+                      {nutritionData.servingSize ? `Per ${nutritionData.servingSize}` : "Per 100g"}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {Object.entries(nutritionData)
+                      .filter(([key]) => key !== "servingSize")
+                      .map(([key, value]) => (
+                        <div
+                          key={key}
+                          className="bg-white px-3 py-2 rounded-xl border border-[var(--color-surface-border)]/70 flex flex-col justify-between"
+                        >
+                          <span className="text-[10px] uppercase font-semibold text-[var(--color-content-muted)] capitalize truncate">
+                            {key.replace(/([A-Z])/g, " $1")}
+                          </span>
+                          <span className="font-bold text-[var(--color-content-primary)] font-mono text-xs mt-0.5">
+                            {value}
+                          </span>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              </div>
 
               {/* Quick Specs: Origin, Shelf Life, Storage */}
               <div className="grid grid-cols-3 gap-3 p-3.5 rounded-2xl bg-[var(--color-surface-cream)] border border-[var(--color-surface-border)] text-xs">
@@ -461,7 +519,20 @@ export function ProductDetailView({
                 <h3 className="text-lg font-bold font-[var(--font-playfair)] text-[var(--color-content-primary)] mb-2">
                   About {product.name}
                 </h3>
-                <p>{product.description}</p>
+                <p className="mb-4">{product.description}</p>
+
+                <div className="product-block product-block-desc mt-4 pt-4 border-t border-[var(--color-surface-border)]">
+                  <p className="text-xs font-bold uppercase tracking-wider text-[var(--color-brand-forest)] mb-2">
+                    Key Features &amp; Benefits:
+                  </p>
+                  <ul className="space-y-2 text-xs sm:text-sm text-[var(--color-content-secondary)] list-disc list-outside pl-4">
+                    {descriptionPoints.map((point, i) => (
+                      <li key={i} className="pl-1">
+                        <span>{point}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
 
               {product.storageInstructions && (
