@@ -299,24 +299,6 @@ export function ProductDetailView({
                 imageSrc={product.images[0]?.src}
               />
 
-              {/* Quality Guarantee Badges */}
-              <div className="grid grid-cols-3 gap-2 pt-2 border-t border-[var(--color-surface-border)] text-center text-xs text-[var(--color-content-secondary)]">
-                <div className="p-2.5 rounded-xl bg-[var(--color-surface-cream)]">
-                  <span className="text-base block mb-1">🌿</span>
-                  <span className="font-semibold block">100% Natural</span>
-                  <span className="text-[10px] text-[var(--color-content-muted)]">Zero Chemicals</span>
-                </div>
-                <div className="p-2.5 rounded-xl bg-[var(--color-surface-cream)]">
-                  <span className="text-base block mb-1">🛡️</span>
-                  <span className="font-semibold block">Quality Tested</span>
-                  <span className="text-[10px] text-[var(--color-content-muted)]">FSSAI Certified</span>
-                </div>
-                <div className="p-2.5 rounded-xl bg-[var(--color-surface-cream)]">
-                  <span className="text-base block mb-1">⚡</span>
-                  <span className="font-semibold block">Free Shipping</span>
-                  <span className="text-[10px] text-[var(--color-content-muted)]">Orders over ₹499</span>
-                </div>
-              </div>
 
 
 

@@ -78,9 +78,9 @@ export function Header() {
       </header>
 
       {/* ── Spacer — prevents content sliding under fixed header ─ */}
-      {/*  Mobile: 56 (MobileHeader) + 48 (SearchBar) = 104px      */}
-      {/*  Desktop: 36 (Announce) + 64 (DeskHeader) + 48 (Nav)     */}
-      <div className="h-[104px] lg:h-[148px]" aria-hidden="true" />
+      {/*  Mobile: 32 (Announce) + 56 (MobileHeader) + 48 (SearchBar) = 136px */}
+      {/*  Desktop: 36 (Announce) + 64 (DeskHeader) + 48 (Nav) = 148px        */}
+      <div className="h-[136px] lg:h-[148px]" aria-hidden="true" />
 
       {/* ── Mobile drawer — rendered outside header ──────────── */}
       <MobileMenu
