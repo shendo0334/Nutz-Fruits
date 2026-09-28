@@ -13,6 +13,8 @@ import { BuyNowButton } from "./BuyNowButton";
 import { Rating } from "./Rating";
 import { ProductBadge } from "./ProductBadge";
 import { ProductCard } from "./ProductCard";
+import { SocialShareButtons } from "./SocialShareButtons";
+import { ProductStickyATC } from "./ProductStickyATC";
 import type { Product, ProductVariant } from "@/types/product";
 import { useCart } from "@/context/CartContext";
 
@@ -157,30 +159,11 @@ export function ProductDetailView({
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
             {/* Left Column: Product Gallery */}
-            <div className="lg:col-span-6 lg:sticky lg:top-24 space-y-4">
+            <div className="lg:col-span-6 lg:sticky lg:top-24">
               <ProductGallery
                 images={product.images}
                 productName={product.name}
               />
-
-              {/* Quality Guarantee Badges */}
-              <div className="grid grid-cols-3 gap-2 pt-3 border-t border-[var(--color-surface-border)] text-center text-xs text-[var(--color-content-secondary)]">
-                <div className="p-2.5 rounded-xl bg-[var(--color-surface-cream)]">
-                  <span className="text-base block mb-1">🌿</span>
-                  <span className="font-semibold block">100% Natural</span>
-                  <span className="text-[10px] text-[var(--color-content-muted)]">Zero Chemicals</span>
-                </div>
-                <div className="p-2.5 rounded-xl bg-[var(--color-surface-cream)]">
-                  <span className="text-base block mb-1">🛡️</span>
-                  <span className="font-semibold block">Quality Tested</span>
-                  <span className="text-[10px] text-[var(--color-content-muted)]">FSSAI Certified</span>
-                </div>
-                <div className="p-2.5 rounded-xl bg-[var(--color-surface-cream)]">
-                  <span className="text-base block mb-1">⚡</span>
-                  <span className="font-semibold block">Free Shipping</span>
-                  <span className="text-[10px] text-[var(--color-content-muted)]">Orders over ₹499</span>
-                </div>
-              </div>
             </div>
 
             {/* Right Column: Product Information & Purchase Panel */}
@@ -309,52 +292,33 @@ export function ProductDetailView({
                 />
               </div>
 
+              {/* Social Sharing Icons (WhatsApp, Facebook, X, Pinterest, Telegram, Email) */}
+              <SocialShareButtons
+                productName={product.name}
+                productSlug={product.slug}
+                imageSrc={product.images[0]?.src}
+              />
 
-              {/* Product Description (5 Points + Nutrition Column) */}
-              <div className="product-block product-block-desc space-y-4 pt-3 border-t border-[var(--color-surface-border)]">
-                <div>
-                  <p className="text-sm font-bold text-[var(--color-content-primary)] tracking-wide">
-                    <strong>{product.name}</strong>
-                  </p>
-                  <ul className="mt-2.5 space-y-2 text-xs sm:text-[13px] text-[var(--color-content-secondary)] leading-relaxed list-disc list-outside pl-4">
-                    {descriptionPoints.map((point, i) => (
-                      <li key={i} className="pl-1">
-                        <span>{point}</span>
-                      </li>
-                    ))}
-                  </ul>
+              {/* Quality Guarantee Badges */}
+              <div className="grid grid-cols-3 gap-2 pt-2 border-t border-[var(--color-surface-border)] text-center text-xs text-[var(--color-content-secondary)]">
+                <div className="p-2.5 rounded-xl bg-[var(--color-surface-cream)]">
+                  <span className="text-base block mb-1">🌿</span>
+                  <span className="font-semibold block">100% Natural</span>
+                  <span className="text-[10px] text-[var(--color-content-muted)]">Zero Chemicals</span>
                 </div>
-
-                {/* Nutrition Column */}
-                <div className="rounded-2xl border border-[var(--color-surface-border)] bg-[var(--color-surface-cream)] p-4 space-y-2.5">
-                  <div className="flex items-center justify-between border-b border-[var(--color-surface-border)] pb-2">
-                    <span className="text-xs font-bold uppercase tracking-wider text-[var(--color-brand-forest)]">
-                      Nutritional Value
-                    </span>
-                    <span className="text-[11px] font-mono text-[var(--color-content-muted)]">
-                      {nutritionData.servingSize ? `Per ${nutritionData.servingSize}` : "Per 100g"}
-                    </span>
-                  </div>
-
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                    {Object.entries(nutritionData)
-                      .filter(([key]) => key !== "servingSize")
-                      .map(([key, value]) => (
-                        <div
-                          key={key}
-                          className="bg-white px-3 py-2 rounded-xl border border-[var(--color-surface-border)]/70 flex flex-col justify-between"
-                        >
-                          <span className="text-[10px] uppercase font-semibold text-[var(--color-content-muted)] capitalize truncate">
-                            {key.replace(/([A-Z])/g, " $1")}
-                          </span>
-                          <span className="font-bold text-[var(--color-content-primary)] font-mono text-xs mt-0.5">
-                            {value}
-                          </span>
-                        </div>
-                      ))}
-                  </div>
+                <div className="p-2.5 rounded-xl bg-[var(--color-surface-cream)]">
+                  <span className="text-base block mb-1">🛡️</span>
+                  <span className="font-semibold block">Quality Tested</span>
+                  <span className="text-[10px] text-[var(--color-content-muted)]">FSSAI Certified</span>
+                </div>
+                <div className="p-2.5 rounded-xl bg-[var(--color-surface-cream)]">
+                  <span className="text-base block mb-1">⚡</span>
+                  <span className="font-semibold block">Free Shipping</span>
+                  <span className="text-[10px] text-[var(--color-content-muted)]">Orders over ₹499</span>
                 </div>
               </div>
+
+
 
               {/* Quick Specs: Origin, Shelf Life, Storage */}
               <div className="grid grid-cols-3 gap-3 p-3.5 rounded-2xl bg-[var(--color-surface-cream)] border border-[var(--color-surface-border)] text-xs">
@@ -387,86 +351,6 @@ export function ProductDetailView({
           </div>
         </Container>
       </section>
-
-      {/* ── Frequently Bought Together ───────────────────────── */}
-      {bundleItems.length > 0 && (
-        <section className="py-12 bg-white border-b border-[var(--color-surface-border)]">
-          <Container>
-            <div className="p-6 md:p-8 rounded-3xl bg-[var(--color-surface-cream)] border border-[var(--color-surface-border)]">
-              <span className="text-xs font-bold uppercase tracking-widest text-[var(--color-brand-forest)]">
-                Smart Combo Saver
-              </span>
-              <h3 className="text-xl sm:text-2xl font-bold font-[var(--font-playfair)] text-[var(--color-content-primary)] mt-1 mb-6">
-                Frequently Bought Together
-              </h3>
-
-              <div className="flex flex-col lg:flex-row items-center gap-8 justify-between">
-                {/* Bundle Item Previews */}
-                <div className="flex flex-wrap items-center gap-4">
-                  {/* Item 1 (Main Product) */}
-                  <div className="flex items-center gap-3 bg-white p-3 rounded-2xl border border-[var(--color-surface-border)]">
-                    <span className="text-2xl">🌰</span>
-                    <div>
-                      <p className="text-xs font-bold text-[var(--color-content-primary)] line-clamp-1">{product.name}</p>
-                      <p className="text-xs text-[var(--color-brand-forest)] font-semibold">₹{selectedVariant.price}</p>
-                    </div>
-                  </div>
-
-                  <span className="text-xl font-bold text-[var(--color-content-muted)]">+</span>
-
-                  {/* Bundle item 2 */}
-                  {bundleItems.map((item, idx) => (
-                    <div key={item.id} className="flex items-center gap-3">
-                      <div className="flex items-center gap-3 bg-white p-3 rounded-2xl border border-[var(--color-surface-border)]">
-                        <span className="text-2xl">🥜</span>
-                        <div>
-                          <p className="text-xs font-bold text-[var(--color-content-primary)] line-clamp-1">{item.name}</p>
-                          <p className="text-xs text-[var(--color-brand-forest)] font-semibold">₹{item.price}</p>
-                        </div>
-                      </div>
-                      {idx < bundleItems.length - 1 && (
-                        <span className="text-xl font-bold text-[var(--color-content-muted)]">+</span>
-                      )}
-                    </div>
-                  ))}
-                </div>
-
-                {/* Total & Action */}
-                <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto text-center sm:text-left">
-                  <div>
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-xs text-[var(--color-content-muted)]">Bundle Price:</span>
-                      <span className="text-xl font-bold text-[var(--color-brand-forest)]">₹{totalBundlePrice}</span>
-                      <span className="text-xs text-[var(--color-content-muted)] line-through">₹{totalBundleMrp}</span>
-                    </div>
-                    {bundleSavings > 0 && (
-                      <span className="text-xs font-semibold text-emerald-700 block">
-                        Save ₹{bundleSavings} with this bundle
-                      </span>
-                    )}
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      addItem(product, selectedVariant, 1);
-                      bundleItems.forEach((item) => {
-                        const v = item.variants.find((vr) => vr.inStock) ?? item.variants[0];
-                        if (v) addItem(item, v, 1);
-                      });
-                      setBundleAdded(true);
-                      setTimeout(() => setBundleAdded(false), 2500);
-                    }}
-                    className="btn btn-primary px-6 py-3 rounded-xl text-xs font-semibold whitespace-nowrap w-full sm:w-auto"
-                  >
-                    {bundleAdded ? "✓ Bundle Added to Cart!" : "Add 3 Items to Cart"}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </Container>
-        </section>
-      )}
 
       {/* ── Tabs Section (Description, Nutrition, Reviews, FAQs) ─ */}
       <section id="product-tabs" className="py-12 bg-white border-b border-[var(--color-surface-border)] scroll-mt-20">
@@ -689,6 +573,86 @@ export function ProductDetailView({
         </Container>
       </section>
 
+      {/* ── Frequently Bought Together (Smart Combo Saver) ───── */}
+      {bundleItems.length > 0 && (
+        <section className="py-12 bg-[var(--color-surface-cream)] border-b border-[var(--color-surface-border)]">
+          <Container>
+            <div className="p-6 md:p-8 rounded-3xl bg-white border border-[var(--color-surface-border)] shadow-xs">
+              <span className="text-xs font-bold uppercase tracking-widest text-[var(--color-brand-forest)]">
+                Smart Combo Saver
+              </span>
+              <h3 className="text-xl sm:text-2xl font-bold font-[var(--font-playfair)] text-[var(--color-content-primary)] mt-1 mb-6">
+                Frequently Bought Together
+              </h3>
+
+              <div className="flex flex-col lg:flex-row items-center gap-8 justify-between">
+                {/* Bundle Item Previews */}
+                <div className="flex flex-wrap items-center gap-4">
+                  {/* Item 1 (Main Product) */}
+                  <div className="flex items-center gap-3 bg-[var(--color-surface-cream)] p-3 rounded-2xl border border-[var(--color-surface-border)]">
+                    <span className="text-2xl">🌰</span>
+                    <div>
+                      <p className="text-xs font-bold text-[var(--color-content-primary)] line-clamp-1">{product.name}</p>
+                      <p className="text-xs text-[var(--color-brand-forest)] font-semibold">₹{selectedVariant.price}</p>
+                    </div>
+                  </div>
+
+                  <span className="text-xl font-bold text-[var(--color-content-muted)]">+</span>
+
+                  {/* Bundle item 2 & 3 */}
+                  {bundleItems.map((item, idx) => (
+                    <div key={item.id} className="flex items-center gap-3">
+                      <div className="flex items-center gap-3 bg-[var(--color-surface-cream)] p-3 rounded-2xl border border-[var(--color-surface-border)]">
+                        <span className="text-2xl">🥜</span>
+                        <div>
+                          <p className="text-xs font-bold text-[var(--color-content-primary)] line-clamp-1">{item.name}</p>
+                          <p className="text-xs text-[var(--color-brand-forest)] font-semibold">₹{item.price}</p>
+                        </div>
+                      </div>
+                      {idx < bundleItems.length - 1 && (
+                        <span className="text-xl font-bold text-[var(--color-content-muted)]">+</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Total & Action */}
+                <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto text-center sm:text-left">
+                  <div>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-xs text-[var(--color-content-muted)]">Bundle Price:</span>
+                      <span className="text-xl font-bold text-[var(--color-brand-forest)]">₹{totalBundlePrice}</span>
+                      <span className="text-xs text-[var(--color-content-muted)] line-through">₹{totalBundleMrp}</span>
+                    </div>
+                    {bundleSavings > 0 && (
+                      <span className="text-xs font-semibold text-emerald-700 block">
+                        Save ₹{bundleSavings} with this bundle
+                      </span>
+                    )}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      addItem(product, selectedVariant, 1);
+                      bundleItems.forEach((item) => {
+                        const v = item.variants.find((vr) => vr.inStock) ?? item.variants[0];
+                        if (v) addItem(item, v, 1);
+                      });
+                      setBundleAdded(true);
+                      setTimeout(() => setBundleAdded(false), 2500);
+                    }}
+                    className="btn btn-primary px-6 py-3 rounded-xl text-xs font-semibold whitespace-nowrap w-full sm:w-auto"
+                  >
+                    {bundleAdded ? "✓ Bundle Added to Cart!" : "Add 3 Items to Cart"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </Container>
+        </section>
+      )}
+
 
       {/* ── Related Products Carousel / Grid ─────────────────── */}
       {relatedProducts.length > 0 && (
@@ -719,6 +683,13 @@ export function ProductDetailView({
           </Container>
         </section>
       )}
+
+      {/* ── Mobile Sticky Add-to-Cart Bar ───────────────────── */}
+      <ProductStickyATC
+        product={product}
+        selectedVariant={selectedVariant}
+        quantity={quantity}
+      />
     </div>
   );
 }

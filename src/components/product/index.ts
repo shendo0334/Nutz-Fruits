@@ -17,4 +17,6 @@ export { ProductGrid }            from "./ProductGrid";
 export { ProductCarousel }        from "./ProductCarousel";
 export { ProductGallery }         from "./ProductGallery";
 export { ProductDetailView }    from "./ProductDetailView";
+export { SocialShareButtons }     from "./SocialShareButtons";
+export { ProductStickyATC }       from "./ProductStickyATC";
 
