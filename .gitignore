@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# AI Agent Auto-Generated Files
+AGENTS.md
+CLAUDE.md
+
+# Session logs
+Logs.md
+History.md
